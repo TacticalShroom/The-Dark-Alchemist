@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://btrukjk2uka8"]
+[gd_scene load_steps=4 format=3 uid="uid://btrukjk2uka8"]
 
 [ext_resource type="Script" path="res://Scripts/player.gd" id="1_n1u06"]
+[ext_resource type="Texture2D" uid="uid://ct551j72flj8o" path="res://Textures/PotionWheel.png" id="2_qy7q0"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8k6qt"]
 size = Vector2(32, 32)
@@ -18,5 +19,8 @@ offset_right = 16.0
 offset_bottom = 16.0
 
 [node name="Camera2D" type="Camera2D" parent="."]
-enabled = false
 process_callback = 0
+
+[node name="PotionWheel" type="Sprite2D" parent="."]
+position = Vector2(320, 180)
+texture = ExtResource("2_qy7q0")
