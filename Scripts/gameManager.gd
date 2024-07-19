@@ -2,7 +2,6 @@ extends Node
 
 @onready var main = load("res://Scenes/main.tscn")
 
-
 @onready var currentScene = main
 
 func _ready():
