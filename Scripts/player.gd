@@ -23,14 +23,12 @@ const ACCELERATION = 50
 
 var damage = 25
 var health = 100
-var shadowShards = 0
 var direction = Vector2.ZERO
 var hurtBoxDistance = 27 #attack range
 var attackCoolDownTimer = 0.0
 var attackCoolDown = 0.25 #time between attacks
 @onready var hurtBox = $Area2D/CollisionShape2D
 var speedMulti = 1
-var health = 100
 var shadowShards = 10
 
 enum PotionTypes {
@@ -194,7 +192,7 @@ func potionListener():
 			spinAmountRemaining = spinAmountMax
 
 func throwPotion(potionType: PotionTypes):
-	
+	pass
 
 func splashPotion(potionType : PotionTypes, x : int = 0, y : int = 0):
 	match potionType:
