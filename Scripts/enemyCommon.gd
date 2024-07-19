@@ -33,7 +33,6 @@ func setHealthBar():
 	
 
 func _physics_process(delta):
-	print(velocity)
 	var doesSeePlayer := target != null
 	
 	if (doesSeePlayer):
@@ -65,4 +64,3 @@ func generateRaycasts():
 		ray.target_position = Vector2(1,tan(angle)).normalized() * maxViewDistance
 		add_child(ray)
 		ray.enabled = true
-		print(rayCount)

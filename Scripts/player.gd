@@ -17,7 +17,7 @@ extends CharacterBody2D
 @onready var potions = [shadowPotion, brittlePotion, teleportPotion, banishPotion, freezePotion, blockPotion, explosionPotion, ragePotion]
 #-------------------------------------------------
 
-const MAX_SPEED = 250
+const MAX_SPEED = 150
 const ACCELERATION = 50
 
 
@@ -78,8 +78,8 @@ func _physics_process(delta):
 	if (movement != Vector2.ZERO):
 		direction = movement
 	
-	velocity.x = move_toward(velocity.x, movement.x*MAX_SPEED, ACCELERATION)
-	velocity.y = move_toward(velocity.y, movement.y*MAX_SPEED, ACCELERATION)
+	velocity.x = move_toward(velocity.x, movement.x*MAX_SPEED*speedMulti, ACCELERATION)
+	velocity.y = move_toward(velocity.y, movement.y*MAX_SPEED*speedMulti, ACCELERATION)
 	
 	move_and_slide()
 
@@ -208,7 +208,7 @@ func splashPotion(potionType : PotionTypes, x : int = 0, y : int = 0):
 		PotionTypes.EXPLOSION:
 			pass
 		PotionTypes.RAGE:
-			if rageTimer.is_stopped() && speedMulti == 1:
+			if rageTimer.is_stopped():
 				rageTimer.start()
 			
 			speedMulti = 2
