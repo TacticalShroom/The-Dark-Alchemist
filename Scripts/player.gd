@@ -94,13 +94,10 @@ func updateHurtBox():
 
 
 func _on_area_2d_body_shape_entered(body_rid, body, body_shape_index, local_shape_index):
-	print("HIT")
 	if body.is_in_group("Hit"):
 		body.onHurt(damage)
 	else:
 		pass # Replace with function body.
-	velocity.x = move_toward(velocity.x, movement.x*MAX_SPEED*speedMulti, ACCELERATION)
-	velocity.y = move_toward(velocity.y, movement.y*MAX_SPEED*speedMulti, ACCELERATION)
 	
 	move_and_slide()
 
