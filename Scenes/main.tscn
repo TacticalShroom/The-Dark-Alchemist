@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://dj6cccmc0d7ek"]
 
 [ext_resource type="PackedScene" uid="uid://btrukjk2uka8" path="res://Scenes/player.tscn" id="1_eltox"]
-[ext_resource type="PackedScene" uid="uid://cho5mvud6kd7g" path="res://Scenes/enemy.tscn" id="2_tao72"]
+[ext_resource type="PackedScene" path="res://Scenes/enemy.tscn" id="2_tao72"]
 
 [node name="Main" type="Node2D"]
 
@@ -21,7 +21,7 @@ offset_bottom = 258.0
 position = Vector2(133, 85)
 
 [node name="Enemy" parent="." instance=ExtResource("2_tao72")]
-position = Vector2(398, 219)
+position = Vector2(66, 49)
 
 [node name="Enemy2" parent="." instance=ExtResource("2_tao72")]
-position = Vector2(289, 159)
+position = Vector2(184, 244)
