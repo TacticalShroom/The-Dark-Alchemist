@@ -74,8 +74,23 @@ var spinAmountRemaining = spinAmountMax
 func potionListener():
 	
 	if Input.is_action_just_pressed("throwPotion"):
-		if potions[selectedPotionIndex].getCost() <= shadowShards:
-			splashPotion(potions[selectedPotionIndex].getType(), 0, 0)		# ZEROS ARE TEMP
+		match potions[selectedPotionIndex].getType():
+			PotionTypes.SHADOW:
+				splashPotion(PotionTypes.SHADOW)
+			PotionTypes.BRITTLE:
+				throwPotion(PotionTypes.BRITTLE)
+			PotionTypes.TELEPORT:
+				throwPotion(PotionTypes.TELEPORT)
+			PotionTypes.BANISH:
+				throwPotion(PotionTypes.BANISH)
+			PotionTypes.FREEZE:
+				throwPotion(PotionTypes.FREEZE)
+			PotionTypes.BLOCK:
+				throwPotion(PotionTypes.BLOCK)
+			PotionTypes.EXPLOSION:
+				throwPotion(PotionTypes.EXPLOSION)
+			PotionTypes.RAGE:
+				splashPotion(PotionTypes.RAGE)
 	
 	if Input.is_action_pressed("PotionMenu"):
 		var i = 0
@@ -132,6 +147,9 @@ func potionListener():
 		else:
 			spinning = false
 			spinAmountRemaining = spinAmountMax
+
+func throwPotion(potionType: PotionTypes):
+	
 
 func splashPotion(potionType : PotionTypes, x : int = 0, y : int = 0):
 	match potionType:
