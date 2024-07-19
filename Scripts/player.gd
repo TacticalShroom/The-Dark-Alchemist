@@ -36,7 +36,7 @@ enum PotionTypes {
 func _ready():
 	var i = 0
 	for potion in potions:
-		potion.getSprite().position.x = -64
+		potion.getSprite().position.x = -32
 	for potion in potions:
 		potion.rotate((PI/4)*i)
 		potion.getSprite().rotate(-(PI/4)*i)
@@ -61,9 +61,9 @@ func _physics_process(delta):
 	
 	move_and_slide()
 
-const potionWheelVel = 0.05
-const potionWheelScale = 1.5
-const potionScale = 2.5
+const potionWheelVel = 0.1
+const potionWheelScale = 1
+const potionScale = 1.5
 var selectedPotionIndex = 1
 var spinning = false
 var spinSpeed = PI/16
@@ -81,8 +81,8 @@ func potionListener():
 		var i = 0
 		for potion in potions:
 			if i != selectedPotionIndex:
-				potion.getSprite().scale.x = move_toward(potion.getSprite().scale.x, 1.5, 0.1)
-				potion.getSprite().scale.y = move_toward(potion.getSprite().scale.y, 1.5, 0.1)
+				potion.getSprite().scale.x = move_toward(potion.getSprite().scale.x, 1, 0.1)
+				potion.getSprite().scale.y = move_toward(potion.getSprite().scale.y, 1, 0.1)
 			else:
 				potion.getSprite().scale.x = move_toward(potion.getSprite().scale.x, potionScale, 0.1)
 				potion.getSprite().scale.y = move_toward(potion.getSprite().scale.y, potionScale, 0.1)
@@ -90,22 +90,25 @@ func potionListener():
 		
 		potionWheel.scale.x = move_toward(potionWheel.scale.x, potionWheelScale, potionWheelVel)
 		potionWheel.scale.y = move_toward(potionWheel.scale.y, potionWheelScale, potionWheelVel)
-		potionWheel.position.x = move_toward(potionWheel.position.x, 315, 0.5)
-		potionWheel.position.y = move_toward(potionWheel.position.y, 175, 0.5)
+		#potionWheel.position.x = move_toward(potionWheel.position.x, 155, 0.5)
+		#potionWheel.position.y = move_toward(potionWheel.position.y, 85, 0.5)
 		for potion in potions:
 			potion.getSprite().position.x = move_toward(potion.getSprite().position.x, (64 * sign(potion.getSprite().position.x))*potionWheelScale, 64*potionWheelVel)
 	else:
-		potionWheel.scale.x = move_toward(potionWheel.scale.x, 1, potionWheelVel)
-		potionWheel.scale.y = move_toward(potionWheel.scale.y, 1, potionWheelVel)
-		potionWheel.position.x = move_toward(potionWheel.position.x, 320, 0.5)
-		potionWheel.position.y = move_toward(potionWheel.position.y, 180, 0.5)
+		potionWheel.scale.x = move_toward(potionWheel.scale.x, 0.5, potionWheelVel)
+		potionWheel.scale.y = move_toward(potionWheel.scale.y, 0.5, potionWheelVel)
+		#potionWheel.position.x = move_toward(potionWheel.position.x, 160, 0.5)
+		#potionWheel.position.y = move_toward(potionWheel.position.y, 90, 0.5)
 		
 		for potion in potions:
-			potion.getSprite().scale.x = move_toward(potion.getSprite().scale.x, 1.5, 0.1)
-			potion.getSprite().scale.y = move_toward(potion.getSprite().scale.y, 1.5, 0.1)
+			potion.getSprite().scale.x = move_toward(potion.getSprite().scale.x, 0.75, 0.1)
+			potion.getSprite().scale.y = move_toward(potion.getSprite().scale.y, 0.75, 0.1)
+		
+		potions[selectedPotionIndex].getSprite().scale.x = move_toward(potions[selectedPotionIndex].getSprite().scale.x, 0.9, 0.2)
+		potions[selectedPotionIndex].getSprite().scale.y = move_toward(potions[selectedPotionIndex].getSprite().scale.y, 0.9, 0.2)
 		
 		for potion in potions:
-			potion.getSprite().position.x = move_toward(potion.getSprite().position.x, (64 * sign(potion.getSprite().position.x)), 64*potionWheelVel)
+			potion.getSprite().position.x = move_toward(potion.getSprite().position.x, (32 * sign(potion.getSprite().position.x)), 64*potionWheelVel)
 	if !spinning && Input.is_action_pressed("PotionMenu"):
 		if Input.is_action_just_pressed("scroll_up"):
 			spinDir = 1
