@@ -1,28 +1,114 @@
+
 [gd_scene load_steps=4 format=3 uid="uid://btrukjk2uka8"]
 
+
 [ext_resource type="Script" path="res://Scripts/player.gd" id="1_n1u06"]
+[ext_resource type="Texture2D" uid="uid://b8qpdlb7qcgb4" path="res://Textures/Player/PlayerIdle.png" id="2_38lmi"]
+[ext_resource type="Texture2D" uid="uid://ct551j72flj8o" path="res://Textures/PotionWheel.png" id="2_qy7q0"]
+[ext_resource type="Script" path="res://Scripts/potion.gd" id="3_3oqpm"]
+[ext_resource type="Texture2D" uid="uid://bu4oa7uiq8to2" path="res://Textures/Potions/ShadowPotion.png" id="4_p8ojs"]
+[ext_resource type="Texture2D" uid="uid://hc6038xtocoi" path="res://Textures/Potions/BrittlePotion.png" id="5_nn8gn"]
+[ext_resource type="Texture2D" uid="uid://be76j3k847pow" path="res://Textures/Potions/TeleportPotion.png" id="6_j7uv8"]
+[ext_resource type="Texture2D" uid="uid://csswe211gvtts" path="res://Textures/Potions/BanishPotion.png" id="7_8prmj"]
+[ext_resource type="Texture2D" uid="uid://d0q0moaupbj54" path="res://Textures/Potions/FreezePotion.png" id="8_oeyqk"]
+[ext_resource type="Texture2D" uid="uid://ch05x1pe2k3t3" path="res://Textures/Potions/BlockPotion.png" id="9_r5hew"]
+[ext_resource type="Texture2D" uid="uid://xpygqaxqi85e" path="res://Textures/Potions/ExplosionPotion.png" id="10_tk4nn"]
+[ext_resource type="Texture2D" uid="uid://bv2mqpwdcjpgl" path="res://Textures/Potions/RagePotion.png" id="11_wo8rg"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_spjc2"]
+atlas = ExtResource("2_38lmi")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3lj4u"]
+atlas = ExtResource("2_38lmi")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fo7ix"]
+atlas = ExtResource("2_38lmi")
+region = Rect2(192, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ecy0a"]
+atlas = ExtResource("2_38lmi")
+region = Rect2(224, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ydum8"]
+atlas = ExtResource("2_38lmi")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jjxg4"]
+atlas = ExtResource("2_38lmi")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5hhka"]
+atlas = ExtResource("2_38lmi")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tmj7s"]
+atlas = ExtResource("2_38lmi")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_t64a6"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_spjc2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3lj4u")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fo7ix")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ecy0a")
+}],
+"loop": true,
+"name": &"IdleLeft",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ydum8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jjxg4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5hhka")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tmj7s")
+}],
+"loop": true,
+"name": &"IdleRight",
+"speed": 10.0
+}]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8k6qt"]
 size = Vector2(32, 32)
 
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_oosat"]
 size = Vector2(20, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_64s5g"]
+size = Vector2(0, 0)
+
 
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_n1u06")
 
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_t64a6")
+animation = &"IdleRight"
+autoplay = "IdleRight"
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_8k6qt")
 
-[node name="ColorRect" type="ColorRect" parent="."]
-offset_left = -16.0
-offset_top = -16.0
-offset_right = 16.0
-offset_bottom = 16.0
-
 [node name="Camera2D" type="Camera2D" parent="."]
-enabled = false
 process_callback = 0
+
 
 [node name="Area2D" type="Area2D" parent="."]
 
@@ -32,3 +118,113 @@ shape = SubResource("RectangleShape2D_oosat")
 disabled = true
 
 [connection signal="body_shape_entered" from="Area2D" to="." method="_on_area_2d_body_shape_entered"]
+
+[node name="PotionWheel" type="Sprite2D" parent="."]
+position = Vector2(160, 90)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_qy7q0")
+
+[node name="Potions" type="Node2D" parent="."]
+position = Vector2(160, 90)
+
+[node name="Shadow" type="Area2D" parent="Potions"]
+script = ExtResource("3_3oqpm")
+shardCost = 5
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Potions/Shadow"]
+shape = SubResource("RectangleShape2D_64s5g")
+disabled = true
+
+[node name="sprite" type="Sprite2D" parent="Potions/Shadow"]
+texture = ExtResource("4_p8ojs")
+
+[node name="Brittle" type="Area2D" parent="Potions"]
+script = ExtResource("3_3oqpm")
+shardCost = 2
+potionType = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Potions/Brittle"]
+shape = SubResource("RectangleShape2D_64s5g")
+disabled = true
+
+[node name="sprite" type="Sprite2D" parent="Potions/Brittle"]
+texture = ExtResource("5_nn8gn")
+
+[node name="Teleport" type="Area2D" parent="Potions"]
+script = ExtResource("3_3oqpm")
+shardCost = 7
+potionType = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Potions/Teleport"]
+shape = SubResource("RectangleShape2D_64s5g")
+disabled = true
+
+[node name="sprite" type="Sprite2D" parent="Potions/Teleport"]
+texture = ExtResource("6_j7uv8")
+
+[node name="Banish" type="Area2D" parent="Potions"]
+script = ExtResource("3_3oqpm")
+shardCost = 5
+potionType = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Potions/Banish"]
+shape = SubResource("RectangleShape2D_64s5g")
+disabled = true
+
+[node name="sprite" type="Sprite2D" parent="Potions/Banish"]
+texture = ExtResource("7_8prmj")
+
+[node name="Freeze" type="Area2D" parent="Potions"]
+script = ExtResource("3_3oqpm")
+shardCost = 3
+potionType = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Potions/Freeze"]
+shape = SubResource("RectangleShape2D_64s5g")
+disabled = true
+
+[node name="sprite" type="Sprite2D" parent="Potions/Freeze"]
+texture = ExtResource("8_oeyqk")
+
+[node name="Block" type="Area2D" parent="Potions"]
+script = ExtResource("3_3oqpm")
+shardCost = 3
+potionType = 5
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Potions/Block"]
+shape = SubResource("RectangleShape2D_64s5g")
+disabled = true
+
+[node name="sprite" type="Sprite2D" parent="Potions/Block"]
+texture = ExtResource("9_r5hew")
+
+[node name="Explosion" type="Area2D" parent="Potions"]
+script = ExtResource("3_3oqpm")
+shardCost = 4
+potionType = 6
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Potions/Explosion"]
+shape = SubResource("RectangleShape2D_64s5g")
+disabled = true
+
+[node name="sprite" type="Sprite2D" parent="Potions/Explosion"]
+texture = ExtResource("10_tk4nn")
+
+[node name="Rage" type="Area2D" parent="Potions"]
+script = ExtResource("3_3oqpm")
+shardCost = 2
+potionType = 7
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Potions/Rage"]
+shape = SubResource("RectangleShape2D_64s5g")
+disabled = true
+
+[node name="sprite" type="Sprite2D" parent="Potions/Rage"]
+texture = ExtResource("11_wo8rg")
+
+[node name="RageTimer" type="Timer" parent="."]
+wait_time = 15.0
+one_shot = true
+
+[connection signal="timeout" from="RageTimer" to="." method="rageTimerFinished"]
+
