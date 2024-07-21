@@ -286,6 +286,5 @@ func rageTimerFinished():
 	
 func onHurt(damage):
 	health -= damage
-	setHealthBar()
 	if (health <= 0):
 		self.queue_free() #you die
