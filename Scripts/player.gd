@@ -1,18 +1,23 @@
 class_name Player
 extends CharacterBody2D
 
-@onready var potionWheel = $PotionWheel
+
 @onready var rageTimer = $RageTimer
+@onready var playerSprite = $PlayerSprite
+@onready var hurtBox = $Area2D/CollisionShape2D
 
 #---------------------POTIONS---------------------
-@onready var shadowPotion = $Potions/Shadow
-@onready var brittlePotion = $Potions/Brittle
-@onready var teleportPotion = $Potions/Teleport
-@onready var banishPotion = $Potions/Banish
-@onready var freezePotion = $Potions/Freeze
-@onready var blockPotion = $Potions/Block
-@onready var explosionPotion = $Potions/Explosion
-@onready var ragePotion = $Potions/Rage
+@onready var shadowPotion = $UI/Potions/Shadow
+@onready var brittlePotion = $UI/Potions/Brittle
+@onready var teleportPotion = $UI/Potions/Teleport
+@onready var banishPotion = $UI/Potions/Banish
+@onready var freezePotion = $UI/Potions/Freeze
+@onready var blockPotion = $UI/Potions/Block
+@onready var explosionPotion = $UI/Potions/Explosion
+@onready var ragePotion = $UI/Potions/Rage
+
+@onready var potionWheel = $UI/PotionWheel
+@onready var bottleProjectile = $BottleProjectile
 
 @onready var potions = [shadowPotion, brittlePotion, teleportPotion, banishPotion, freezePotion, blockPotion, explosionPotion, ragePotion]
 #-------------------------------------------------
@@ -20,16 +25,14 @@ extends CharacterBody2D
 const MAX_SPEED = 150
 const ACCELERATION = 50
 
-
 var damage = 25
 var health = 100
 var direction = Vector2.ZERO
 var hurtBoxDistance = 27 #attack range
 var attackCoolDownTimer = 0.0
 var attackCoolDown = 0.25 #time between attacks
-@onready var hurtBox = $Area2D/CollisionShape2D
 var speedMulti = 1
-var shadowShards = 10
+var shadowShards = 100
 
 enum PotionTypes {
 	SHADOW,
@@ -50,9 +53,11 @@ func _ready():
 		potion.rotate((PI/4)*i)
 		potion.getSprite().rotate(-(PI/4)*i)
 		i += 1
+	
+	bottleProjectile.connect("bottle_landed", onBottleHit)
 
 func _physics_process(delta):
-	if (Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) && attackCoolDownTimer <= 0.0):
+	if (Input.is_action_pressed("attack") && attackCoolDownTimer <= 0.0):
 		hurtBox.disabled = false
 		attackCoolDownTimer = attackCoolDown
 		#do attack animation
@@ -81,17 +86,32 @@ func _physics_process(delta):
 	velocity.x = move_toward(velocity.x, movement.x*MAX_SPEED*speedMulti, ACCELERATION)
 	velocity.y = move_toward(velocity.y, movement.y*MAX_SPEED*speedMulti, ACCELERATION)
 	
+	updateSprite()
+	
 	move_and_slide()
 
 	if attackCoolDownTimer <= 0.0:
 		updateHurtBox()
 
-		
+func updateSprite():
+	if velocity.x > 0:
+		playerSprite.play("RunRight")
+	elif velocity.x < 0:
+		playerSprite.play("RunLeft")
+	elif velocity.y < 0:
+		playerSprite.play("RunRight")
+	elif velocity.y > 0:
+		playerSprite.play("RunLeft")
+	else:
+		if direction.x >= 0:
+			playerSprite.play("IdleRight")
+		else:
+			playerSprite.play("IdleLeft")
+
 func updateHurtBox():
 	hurtBox.rotation = atan2(direction.y, direction.x)
 	hurtBox.position.x = direction.x * hurtBoxDistance
 	hurtBox.position.y = direction.y * hurtBoxDistance
-
 
 func _on_area_2d_body_shape_entered(body_rid, body, body_shape_index, local_shape_index):
 	if body.is_in_group("Hit"):
@@ -104,7 +124,7 @@ func _on_area_2d_body_shape_entered(body_rid, body, body_shape_index, local_shap
 const potionWheelVel = 0.1
 const potionWheelScale = 1
 const potionScale = 1.5
-var selectedPotionIndex = 1
+var selectedPotionIndex = 2
 var spinning = false
 var spinSpeed = PI/16
 var spinDir = -1
@@ -112,25 +132,26 @@ var spinAmountMax = PI/4
 var spinAmountRemaining = spinAmountMax
 
 func potionListener():
-	
 	if Input.is_action_just_pressed("throwPotion"):
-		match potions[selectedPotionIndex].getType():
-			PotionTypes.SHADOW:
-				splashPotion(PotionTypes.SHADOW)
-			PotionTypes.BRITTLE:
-				throwPotion(PotionTypes.BRITTLE)
-			PotionTypes.TELEPORT:
-				throwPotion(PotionTypes.TELEPORT)
-			PotionTypes.BANISH:
-				throwPotion(PotionTypes.BANISH)
-			PotionTypes.FREEZE:
-				throwPotion(PotionTypes.FREEZE)
-			PotionTypes.BLOCK:
-				throwPotion(PotionTypes.BLOCK)
-			PotionTypes.EXPLOSION:
-				throwPotion(PotionTypes.EXPLOSION)
-			PotionTypes.RAGE:
-				splashPotion(PotionTypes.RAGE)
+		if shadowShards >= potions[selectedPotionIndex].getCost():
+			shadowShards -= potions[selectedPotionIndex].getCost()
+			match potions[selectedPotionIndex].getType():
+				PotionTypes.SHADOW:
+					splashPotion(PotionTypes.SHADOW)
+				PotionTypes.BRITTLE:
+					throwPotion(PotionTypes.BRITTLE)
+				PotionTypes.TELEPORT:
+					throwPotion(PotionTypes.TELEPORT)
+				PotionTypes.BANISH:
+					throwPotion(PotionTypes.BANISH)
+				PotionTypes.FREEZE:
+					throwPotion(PotionTypes.FREEZE)
+				PotionTypes.BLOCK:
+					throwPotion(PotionTypes.BLOCK)
+				PotionTypes.EXPLOSION:
+					throwPotion(PotionTypes.EXPLOSION)
+				PotionTypes.RAGE:
+					splashPotion(PotionTypes.RAGE)
 	
 	if Input.is_action_pressed("PotionMenu"):
 		var i = 0
@@ -189,7 +210,15 @@ func potionListener():
 			spinAmountRemaining = spinAmountMax
 
 func throwPotion(potionType: PotionTypes):
-	pass
+	var potionProjectile = bottleProjectile.duplicate()
+	potionProjectile.visible = true
+	add_child(potionProjectile)
+	potionProjectile.connect("bottle_landed", onBottleHit)
+	
+	potionProjectile.throw(potionType, direction)
+
+func onBottleHit(type, x, y):
+	splashPotion(type, x, y)
 
 func splashPotion(potionType : PotionTypes, x : int = 0, y : int = 0):
 	match potionType:
@@ -198,7 +227,8 @@ func splashPotion(potionType : PotionTypes, x : int = 0, y : int = 0):
 		PotionTypes.BRITTLE:
 			pass
 		PotionTypes.TELEPORT:
-			pass
+			position.x += x
+			position.y += y
 		PotionTypes.BANISH:
 			pass
 		PotionTypes.FREEZE:
