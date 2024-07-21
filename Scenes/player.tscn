@@ -1,9 +1,10 @@
-[gd_scene load_steps=25 format=3 uid="uid://btrukjk2uka8"]
+[gd_scene load_steps=56 format=3 uid="uid://btrukjk2uka8"]
 
 [ext_resource type="Script" path="res://Scripts/player.gd" id="1_n1u06"]
 [ext_resource type="Texture2D" uid="uid://b8qpdlb7qcgb4" path="res://Textures/Player/PlayerIdle.png" id="2_38lmi"]
 [ext_resource type="Texture2D" uid="uid://ct551j72flj8o" path="res://Textures/PotionWheel.png" id="2_qy7q0"]
 [ext_resource type="Script" path="res://Scripts/potion.gd" id="3_3oqpm"]
+[ext_resource type="Texture2D" uid="uid://biepfkc52mvnh" path="res://Textures/Player/PlayerRun.png" id="3_y1114"]
 [ext_resource type="Texture2D" uid="uid://bu4oa7uiq8to2" path="res://Textures/Potions/ShadowPotion.png" id="4_p8ojs"]
 [ext_resource type="Texture2D" uid="uid://hc6038xtocoi" path="res://Textures/Potions/BrittlePotion.png" id="5_nn8gn"]
 [ext_resource type="Texture2D" uid="uid://be76j3k847pow" path="res://Textures/Potions/TeleportPotion.png" id="6_j7uv8"]
@@ -12,6 +13,14 @@
 [ext_resource type="Texture2D" uid="uid://ch05x1pe2k3t3" path="res://Textures/Potions/BlockPotion.png" id="9_r5hew"]
 [ext_resource type="Texture2D" uid="uid://xpygqaxqi85e" path="res://Textures/Potions/ExplosionPotion.png" id="10_tk4nn"]
 [ext_resource type="Texture2D" uid="uid://bv2mqpwdcjpgl" path="res://Textures/Potions/RagePotion.png" id="11_wo8rg"]
+[ext_resource type="Script" path="res://Scripts/BottleProjectile.gd" id="14_hf3bd"]
+[ext_resource type="Texture2D" uid="uid://dnoc232cp0dur" path="res://Textures/Player/BottleProjectile.png" id="14_monhd"]
+[ext_resource type="Texture2D" uid="uid://blaba1ocilfel" path="res://Textures/UI/HealthBottomLayer.png" id="16_aei8j"]
+[ext_resource type="Texture2D" uid="uid://uukp0apsjnrw" path="res://Textures/UI/HealthMiddleLayer.png" id="17_0fewi"]
+[ext_resource type="Texture2D" uid="uid://bi1hj4m5h4j17" path="res://Textures/UI/HealthTopLayer.png" id="18_8ulrs"]
+[ext_resource type="Texture2D" uid="uid://crsnirj4tv3dl" path="res://Textures/UI/BottleOShadowBottomLayer.png" id="19_hacxw"]
+[ext_resource type="Texture2D" uid="uid://bjuynarw1y3ct" path="res://Textures/UI/BottleOShadowMiddleLayer.png" id="20_00xiu"]
+[ext_resource type="Texture2D" uid="uid://cwyeqhtd2vt2c" path="res://Textures/UI/BottleOShadowTopLayer.png" id="21_wn13g"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_spjc2"]
 atlas = ExtResource("2_38lmi")
@@ -44,6 +53,70 @@ region = Rect2(64, 0, 32, 32)
 [sub_resource type="AtlasTexture" id="AtlasTexture_tmj7s"]
 atlas = ExtResource("2_38lmi")
 region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f4y2y"]
+atlas = ExtResource("3_y1114")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0fysy"]
+atlas = ExtResource("3_y1114")
+region = Rect2(32, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nsmhy"]
+atlas = ExtResource("3_y1114")
+region = Rect2(64, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_svllo"]
+atlas = ExtResource("3_y1114")
+region = Rect2(96, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7okt2"]
+atlas = ExtResource("3_y1114")
+region = Rect2(128, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1pmmj"]
+atlas = ExtResource("3_y1114")
+region = Rect2(160, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s6sro"]
+atlas = ExtResource("3_y1114")
+region = Rect2(192, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bf82b"]
+atlas = ExtResource("3_y1114")
+region = Rect2(224, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t6bmy"]
+atlas = ExtResource("3_y1114")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2mdwi"]
+atlas = ExtResource("3_y1114")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rhd28"]
+atlas = ExtResource("3_y1114")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yugox"]
+atlas = ExtResource("3_y1114")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yuedc"]
+atlas = ExtResource("3_y1114")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4q036"]
+atlas = ExtResource("3_y1114")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pppjs"]
+atlas = ExtResource("3_y1114")
+region = Rect2(192, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5oxhe"]
+atlas = ExtResource("3_y1114")
+region = Rect2(224, 0, 32, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_t64a6"]
 animations = [{
@@ -80,6 +153,64 @@ animations = [{
 "loop": true,
 "name": &"IdleRight",
 "speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f4y2y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0fysy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nsmhy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_svllo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7okt2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1pmmj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s6sro")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bf82b")
+}],
+"loop": true,
+"name": &"RunLeft",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t6bmy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2mdwi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rhd28")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yugox")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yuedc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4q036")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pppjs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5oxhe")
+}],
+"loop": true,
+"name": &"RunRight",
+"speed": 10.0
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8k6qt"]
@@ -88,15 +219,54 @@ size = Vector2(32, 32)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_oosat"]
 size = Vector2(20, 32)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_s4nqj"]
+atlas = ExtResource("14_monhd")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g8y8v"]
+atlas = ExtResource("14_monhd")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_elq86"]
+atlas = ExtResource("14_monhd")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_otpv4"]
+atlas = ExtResource("14_monhd")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ssuuq"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s4nqj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g8y8v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_elq86")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_otpv4")
+}],
+"loop": true,
+"name": &"thrown",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_l8hgl"]
+radius = 3.0
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_64s5g"]
 size = Vector2(0, 0)
 
-[node name="Player" type="CharacterBody2D"]
+[node name="Player" type="CharacterBody2D" groups=["Player"]]
 script = ExtResource("1_n1u06")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="PlayerSprite" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_t64a6")
-animation = &"IdleRight"
+animation = &"RunLeft"
 autoplay = "IdleRight"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -112,112 +282,176 @@ position = Vector2(26, 0)
 shape = SubResource("RectangleShape2D_oosat")
 disabled = true
 
-[node name="PotionWheel" type="Sprite2D" parent="."]
-position = Vector2(160, 90)
-scale = Vector2(0.5, 0.5)
-texture = ExtResource("2_qy7q0")
-
-[node name="Potions" type="Node2D" parent="."]
-position = Vector2(160, 90)
-
-[node name="Shadow" type="Area2D" parent="Potions"]
-script = ExtResource("3_3oqpm")
-shardCost = 5
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Potions/Shadow"]
-shape = SubResource("RectangleShape2D_64s5g")
-disabled = true
-
-[node name="sprite" type="Sprite2D" parent="Potions/Shadow"]
-texture = ExtResource("4_p8ojs")
-
-[node name="Brittle" type="Area2D" parent="Potions"]
-script = ExtResource("3_3oqpm")
-shardCost = 2
-potionType = 1
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Potions/Brittle"]
-shape = SubResource("RectangleShape2D_64s5g")
-disabled = true
-
-[node name="sprite" type="Sprite2D" parent="Potions/Brittle"]
-texture = ExtResource("5_nn8gn")
-
-[node name="Teleport" type="Area2D" parent="Potions"]
-script = ExtResource("3_3oqpm")
-shardCost = 7
-potionType = 2
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Potions/Teleport"]
-shape = SubResource("RectangleShape2D_64s5g")
-disabled = true
-
-[node name="sprite" type="Sprite2D" parent="Potions/Teleport"]
-texture = ExtResource("6_j7uv8")
-
-[node name="Banish" type="Area2D" parent="Potions"]
-script = ExtResource("3_3oqpm")
-shardCost = 5
-potionType = 3
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Potions/Banish"]
-shape = SubResource("RectangleShape2D_64s5g")
-disabled = true
-
-[node name="sprite" type="Sprite2D" parent="Potions/Banish"]
-texture = ExtResource("7_8prmj")
-
-[node name="Freeze" type="Area2D" parent="Potions"]
-script = ExtResource("3_3oqpm")
-shardCost = 3
-potionType = 4
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Potions/Freeze"]
-shape = SubResource("RectangleShape2D_64s5g")
-disabled = true
-
-[node name="sprite" type="Sprite2D" parent="Potions/Freeze"]
-texture = ExtResource("8_oeyqk")
-
-[node name="Block" type="Area2D" parent="Potions"]
-script = ExtResource("3_3oqpm")
-shardCost = 3
-potionType = 5
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Potions/Block"]
-shape = SubResource("RectangleShape2D_64s5g")
-disabled = true
-
-[node name="sprite" type="Sprite2D" parent="Potions/Block"]
-texture = ExtResource("9_r5hew")
-
-[node name="Explosion" type="Area2D" parent="Potions"]
-script = ExtResource("3_3oqpm")
-shardCost = 4
-potionType = 6
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Potions/Explosion"]
-shape = SubResource("RectangleShape2D_64s5g")
-disabled = true
-
-[node name="sprite" type="Sprite2D" parent="Potions/Explosion"]
-texture = ExtResource("10_tk4nn")
-
-[node name="Rage" type="Area2D" parent="Potions"]
-script = ExtResource("3_3oqpm")
-shardCost = 2
-potionType = 7
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Potions/Rage"]
-shape = SubResource("RectangleShape2D_64s5g")
-disabled = true
-
-[node name="sprite" type="Sprite2D" parent="Potions/Rage"]
-texture = ExtResource("11_wo8rg")
-
 [node name="RageTimer" type="Timer" parent="."]
 wait_time = 15.0
 one_shot = true
 
+[node name="BottleProjectile" type="Area2D" parent="."]
+visible = false
+script = ExtResource("14_hf3bd")
+
+[node name="BottleSprite" type="AnimatedSprite2D" parent="BottleProjectile"]
+sprite_frames = SubResource("SpriteFrames_ssuuq")
+animation = &"thrown"
+offset = Vector2(-1.5, -0.5)
+
+[node name="BottleCollision" type="CollisionShape2D" parent="BottleProjectile"]
+shape = SubResource("CircleShape2D_l8hgl")
+
+[node name="UI" type="Node2D" parent="."]
+z_index = 5
+
+[node name="PotionWheel" type="Sprite2D" parent="UI"]
+z_index = 5
+position = Vector2(0, 105)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_qy7q0")
+
+[node name="Potions" type="Node2D" parent="UI"]
+z_index = 5
+position = Vector2(0, 105)
+
+[node name="Shadow" type="Area2D" parent="UI/Potions"]
+script = ExtResource("3_3oqpm")
+shardCost = 5
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="UI/Potions/Shadow"]
+shape = SubResource("RectangleShape2D_64s5g")
+disabled = true
+
+[node name="sprite" type="Sprite2D" parent="UI/Potions/Shadow"]
+texture = ExtResource("4_p8ojs")
+
+[node name="Brittle" type="Area2D" parent="UI/Potions"]
+script = ExtResource("3_3oqpm")
+shardCost = 2
+potionType = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="UI/Potions/Brittle"]
+shape = SubResource("RectangleShape2D_64s5g")
+disabled = true
+
+[node name="sprite" type="Sprite2D" parent="UI/Potions/Brittle"]
+texture = ExtResource("5_nn8gn")
+
+[node name="Teleport" type="Area2D" parent="UI/Potions"]
+script = ExtResource("3_3oqpm")
+shardCost = 7
+potionType = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="UI/Potions/Teleport"]
+shape = SubResource("RectangleShape2D_64s5g")
+disabled = true
+
+[node name="sprite" type="Sprite2D" parent="UI/Potions/Teleport"]
+texture = ExtResource("6_j7uv8")
+
+[node name="Banish" type="Area2D" parent="UI/Potions"]
+script = ExtResource("3_3oqpm")
+shardCost = 5
+potionType = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="UI/Potions/Banish"]
+shape = SubResource("RectangleShape2D_64s5g")
+disabled = true
+
+[node name="sprite" type="Sprite2D" parent="UI/Potions/Banish"]
+texture = ExtResource("7_8prmj")
+
+[node name="Freeze" type="Area2D" parent="UI/Potions"]
+script = ExtResource("3_3oqpm")
+shardCost = 3
+potionType = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="UI/Potions/Freeze"]
+shape = SubResource("RectangleShape2D_64s5g")
+disabled = true
+
+[node name="sprite" type="Sprite2D" parent="UI/Potions/Freeze"]
+texture = ExtResource("8_oeyqk")
+
+[node name="Block" type="Area2D" parent="UI/Potions"]
+script = ExtResource("3_3oqpm")
+shardCost = 3
+potionType = 5
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="UI/Potions/Block"]
+shape = SubResource("RectangleShape2D_64s5g")
+disabled = true
+
+[node name="sprite" type="Sprite2D" parent="UI/Potions/Block"]
+texture = ExtResource("9_r5hew")
+
+[node name="Explosion" type="Area2D" parent="UI/Potions"]
+script = ExtResource("3_3oqpm")
+shardCost = 4
+potionType = 6
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="UI/Potions/Explosion"]
+shape = SubResource("RectangleShape2D_64s5g")
+disabled = true
+
+[node name="sprite" type="Sprite2D" parent="UI/Potions/Explosion"]
+texture = ExtResource("10_tk4nn")
+
+[node name="Rage" type="Area2D" parent="UI/Potions"]
+script = ExtResource("3_3oqpm")
+shardCost = 2
+potionType = 7
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="UI/Potions/Rage"]
+shape = SubResource("RectangleShape2D_64s5g")
+disabled = true
+
+[node name="sprite" type="Sprite2D" parent="UI/Potions/Rage"]
+texture = ExtResource("11_wo8rg")
+
+[node name="HealthBar" type="Node2D" parent="UI"]
+position = Vector2(-160, 35)
+scale = Vector2(0.4, 0.4)
+
+[node name="BottomLayer" type="TextureRect" parent="UI/HealthBar"]
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("16_aei8j")
+
+[node name="MiddleLayer" type="TextureRect" parent="UI/HealthBar"]
+offset_top = 48.0
+offset_right = 128.0
+offset_bottom = 176.0
+texture = ExtResource("17_0fewi")
+expand_mode = 1
+stretch_mode = 1
+flip_v = true
+
+[node name="TopLayer" type="TextureRect" parent="UI/HealthBar"]
+offset_right = 128.0
+offset_bottom = 128.0
+texture = ExtResource("18_8ulrs")
+
+[node name="BottleOShadow" type="Node2D" parent="UI"]
+position = Vector2(109, 35)
+scale = Vector2(0.4, 0.4)
+
+[node name="BottomLayer" type="TextureRect" parent="UI/BottleOShadow"]
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("19_hacxw")
+
+[node name="MiddleLayer" type="TextureRect" parent="UI/BottleOShadow"]
+offset_top = 127.0
+offset_right = 128.0
+offset_bottom = 176.0
+texture = ExtResource("20_00xiu")
+expand_mode = 1
+stretch_mode = 1
+flip_v = true
+
+[node name="TopLayer" type="TextureRect" parent="UI/BottleOShadow"]
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("21_wn13g")
+
 [connection signal="body_shape_entered" from="Area2D" to="." method="_on_area_2d_body_shape_entered"]
 [connection signal="timeout" from="RageTimer" to="." method="rageTimerFinished"]
+[connection signal="body_entered" from="BottleProjectile" to="BottleProjectile" method="_on_body_entered"]
