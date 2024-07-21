@@ -257,8 +257,8 @@ func splashPotion(potionType : PotionTypes, x : int = 0, y : int = 0):
 		PotionTypes.BRITTLE:
 			pass
 		PotionTypes.TELEPORT:
-			position.x += x
-			position.y += y
+			global_position.x = x
+			global_position.y = y
 		PotionTypes.BANISH:
 			pass
 		PotionTypes.FREEZE:

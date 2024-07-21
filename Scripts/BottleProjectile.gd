@@ -22,7 +22,7 @@ func _physics_process(delta):
 		if hitBody != null || potionTimer <= 0:
 			position.x -= direction.x * BOTTLE_VELOCITY
 			position.y -= direction.y * BOTTLE_VELOCITY
-			emit_signal("bottle_landed", potionType, position.x, position.y)
+			emit_signal("bottle_landed", potionType, global_position.x, global_position.y)
 			queue_free()
 		potionTimer -= 1
 
