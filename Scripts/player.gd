@@ -6,6 +6,9 @@ extends CharacterBody2D
 @onready var playerSprite = $PlayerSprite
 @onready var hurtBox = $Area2D/CollisionShape2D
 
+@onready var healthBar = $UI/HealthBar/MiddleLayer
+@onready var shadowBar = $UI/BottleOShadow/MiddleLayer
+
 #---------------------POTIONS---------------------
 @onready var shadowPotion = $UI/Potions/Shadow
 @onready var brittlePotion = $UI/Potions/Brittle
@@ -27,12 +30,14 @@ const ACCELERATION = 50
 
 var damage = 25
 var health = 100
+var maxHealth = 100
 var direction = Vector2.ZERO
 var hurtBoxDistance = 27 #attack range
 var attackCoolDownTimer = 0.0
 var attackCoolDown = 0.25 #time between attacks
 var speedMulti = 1
-var shadowShards = 100
+var shadowShards = 50
+var maxShadowShards = 100
 
 enum PotionTypes {
 	SHADOW,
@@ -65,7 +70,6 @@ func _physics_process(delta):
 		attackCoolDownTimer -= delta
 	else:
 		hurtBox.disabled = true
-	potionListener()
 	var movement = Vector2.ZERO
 	
 	if attackCoolDownTimer <= 0.0:
@@ -87,9 +91,10 @@ func _physics_process(delta):
 	velocity.y = move_toward(velocity.y, movement.y*MAX_SPEED*speedMulti, ACCELERATION)
 	
 	updateSprite()
-	
+	updateUI()
+	potionListener()
 	move_and_slide()
-
+	
 	if attackCoolDownTimer <= 0.0:
 		updateHurtBox()
 
@@ -107,6 +112,31 @@ func updateSprite():
 			playerSprite.play("IdleRight")
 		else:
 			playerSprite.play("IdleLeft")
+
+var barYZero = 128
+var barYFull = 48
+
+var barMinSize = 48
+var barMaxSize = 128
+
+func updateUI():
+	#HEALTH
+	if health > maxHealth:
+		healthBar.position.y = barYFull
+		healthBar.size.y = barMaxSize
+	else:
+		var healthBarSize = int((float(health) / float(maxHealth)) * (barMaxSize - barMinSize) + barMinSize)
+		var healthBarY = barYFull + (barMaxSize - healthBarSize)
+		healthBar.position.y = healthBarY
+		healthBar.size.y = healthBarSize
+	
+	#SHADOW
+	
+	
+	var shadowBarSize = int((float(shadowShards) / float(maxShadowShards)) * (barMaxSize - barMinSize) + barMinSize)
+	var shadowBarY = barYFull + (barMaxSize - shadowBarSize)
+	shadowBar.position.y = shadowBarY
+	shadowBar.size.y = shadowBarSize
 
 func updateHurtBox():
 	hurtBox.rotation = atan2(direction.y, direction.x)

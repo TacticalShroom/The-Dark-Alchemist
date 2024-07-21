@@ -439,7 +439,7 @@ offset_bottom = 40.0
 texture = ExtResource("19_hacxw")
 
 [node name="MiddleLayer" type="TextureRect" parent="UI/BottleOShadow"]
-offset_top = 127.0
+offset_top = 48.0
 offset_right = 128.0
 offset_bottom = 176.0
 texture = ExtResource("20_00xiu")
