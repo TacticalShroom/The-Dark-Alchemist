@@ -1,6 +1,8 @@
 class_name Player
 extends CharacterBody2D
 
+@onready var healthBar = $HealthBar
+@onready var hurtBox = $Area2D/CollisionShape2D
 @onready var potionWheel = $PotionWheel
 @onready var rageTimer = $RageTimer
 
@@ -21,13 +23,16 @@ const MAX_SPEED = 150
 const ACCELERATION = 50
 
 
-var damage = 25
-var health = 100
+var atkDamage = 25
+var maxHealth = 100
+var health = maxHealth
 var direction = Vector2.ZERO
-var hurtBoxDistance = 27 #attack range
-var attackCoolDownTimer = 0.0
+var hurtBoxDistance = 30 #attack range
+var attackTimer = 0.0
+var attackDuration = 0.25
 var attackCoolDown = 0.25 #time between attacks
-@onready var hurtBox = $Area2D/CollisionShape2D
+var coolDownTimer = 0.0
+
 var speedMulti = 1
 var shadowShards = 10
 
@@ -50,20 +55,26 @@ func _ready():
 		potion.rotate((PI/4)*i)
 		potion.getSprite().rotate(-(PI/4)*i)
 		i += 1
+	healthBar.max_value = maxHealth
+	setHealthBar()
 
 func _physics_process(delta):
-	if (Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) && attackCoolDownTimer <= 0.0):
+	if (Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) && coolDownTimer <= 0.0 && attackTimer <= 0.0):
 		hurtBox.disabled = false
-		attackCoolDownTimer = attackCoolDown
+		attackTimer = attackDuration
+		coolDownTimer = attackCoolDown + attackDuration
 		#do attack animation
-	if (attackCoolDownTimer > 0.0):
-		attackCoolDownTimer -= delta
+	if (attackTimer > 0.0):
+		attackTimer -= delta
 	else:
 		hurtBox.disabled = true
+	if coolDownTimer > 0.0:
+		coolDownTimer -= delta
+	
 	potionListener()
 	var movement = Vector2.ZERO
 	
-	if attackCoolDownTimer <= 0.0:
+	if attackTimer <= 0.0:
 		if Input.is_action_pressed("up"):
 			movement.y -= 1
 		if Input.is_action_pressed("down"):
@@ -83,7 +94,7 @@ func _physics_process(delta):
 	
 	move_and_slide()
 
-	if attackCoolDownTimer <= 0.0:
+	if attackTimer <= 0.0:
 		updateHurtBox()
 
 		
@@ -95,11 +106,9 @@ func updateHurtBox():
 
 func _on_area_2d_body_shape_entered(body_rid, body, body_shape_index, local_shape_index):
 	if body.is_in_group("Hit"):
-		body.onHurt(damage)
-	else:
-		pass # Replace with function body.
+		direction = direction.normalized()
+		body.onHurt(atkDamage, direction)
 	
-	move_and_slide()
 
 const potionWheelVel = 0.1
 const potionWheelScale = 1
@@ -218,3 +227,11 @@ func splashPotion(potionType : PotionTypes, x : int = 0, y : int = 0):
 func rageTimerFinished():
 	speedMulti = 1
 
+func setHealthBar():
+	$HealthBar.value = health
+	
+func onHurt(damage):
+	health -= damage
+	setHealthBar()
+	if (health <= 0):
+		self.queue_free() #you die

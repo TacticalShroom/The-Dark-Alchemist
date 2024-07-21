@@ -1,0 +1,43 @@
+[gd_scene load_steps=5 format=3 uid="uid://b4g2gqanvlil4"]
+
+[ext_resource type="Script" path="res://Scripts/enemyTurret.gd" id="1_51s6v"]
+[ext_resource type="Script" path="res://Scripts/turretShot.gd" id="2_hg2vg"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nnbqa"]
+size = Vector2(32, 32)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_bmuub"]
+radius = 4.0
+
+[node name="EnemyTurret" type="CharacterBody2D" groups=["Hit"]]
+motion_mode = 1
+script = ExtResource("1_51s6v")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_nnbqa")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_left = -16.0
+offset_top = -16.0
+offset_right = 16.0
+offset_bottom = 16.0
+
+[node name="HealthBar" type="ProgressBar" parent="."]
+modulate = Color(0.678431, 0, 0.0588235, 1)
+offset_left = -15.0
+offset_top = -25.0
+offset_right = 185.0
+offset_bottom = 2.0
+scale = Vector2(0.155, 0.155)
+step = 1.0
+show_percentage = false
+
+[node name="Area2D" type="Area2D" parent="."]
+visible = false
+script = ExtResource("2_hg2vg")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_bmuub")
+debug_color = Color(1, 0, 0.0166664, 0.419608)
+
+[connection signal="body_shape_entered" from="Area2D" to="." method="_on_area_2d_body_shape_entered"]
