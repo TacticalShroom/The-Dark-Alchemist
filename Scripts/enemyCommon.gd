@@ -103,7 +103,7 @@ func _physics_process(delta):
 	for ray in get_children():
 		if (ray is RayCast2D):
 			ray.rotate(movement.angle()-direction.angle())
-			if ray.is_colliding() && ray.get_collider() is Player:
+			if ray.is_colliding() && ray.get_collider().is_in_group("Player"):
 				target = ray.get_collider()
 	
 	hurtBox.rotation = atan2(direction.y, direction.x)

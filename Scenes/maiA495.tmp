@@ -8,8 +8,6 @@
 size = Vector2(43, 133)
 
 [node name="Main" type="Node2D"]
-y_sort_enabled = true
-position = Vector2(-1, 1)
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 collision_layer = 3
@@ -44,13 +42,10 @@ shape = SubResource("RectangleShape2D_fhkvh")
 position = Vector2(159, 263)
 
 [node name="Enemy" parent="." instance=ExtResource("2_tao72")]
-position = Vector2(259, 102)
+position = Vector2(185, 33)
 
 [node name="Enemy2" parent="." instance=ExtResource("2_tao72")]
-position = Vector2(257, 159)
-
-[node name="Enemy3" parent="." instance=ExtResource("2_tao72")]
-position = Vector2(226, 112)
+position = Vector2(183, 152)
 
 [node name="EnemyTurret" parent="." instance=ExtResource("4_pmgvj")]
 position = Vector2(47, 59)
