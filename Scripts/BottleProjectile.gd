@@ -3,10 +3,26 @@ extends Area2D
 @onready var bottleSprite = $BottleSprite
 @onready var bottleCollision = $BottleCollision
 @onready var potionEffectArea = $PotionEffectArea
+@onready var explosionParticles = $ExplosionParticles
+@onready var banishParticles = $BanishParticles
+@onready var brittleParticles = $BrittleParticles
+@onready var freezeParticles = $FreezeParticles
+@onready var potionQueueTimer = $PotionQueueTimer
 
 const BOTTLE_VELOCITY = 4
 
 signal bottle_landed
+
+enum PotionTypes {
+	SHADOW,
+	BRITTLE,
+	TELEPORT,
+	BANISH,
+	FREEZE,
+	BLOCK,
+	EXPLOSION,
+	RAGE
+}
 
 var thrown = false
 var direction = Vector2.ZERO
@@ -22,10 +38,23 @@ func _physics_process(delta):
 		position.y += direction.y * BOTTLE_VELOCITY
 
 		if hitBody != null || potionTimer <= 0:
+			
+			match potionType:
+				PotionTypes.BRITTLE:
+					brittleParticles.emitting = true
+				PotionTypes.BANISH:
+					banishParticles.emitting = true
+				PotionTypes.EXPLOSION:
+					explosionParticles.emitting = true
+				PotionTypes.FREEZE:
+					freezeParticles.emitting = true
+			
+			thrown = false
+			potionQueueTimer.queue(self)
+			bottleSprite.visible = false
 			position.x -= direction.x * BOTTLE_VELOCITY
 			position.y -= direction.y * BOTTLE_VELOCITY
 			emit_signal("bottle_landed", potionType, potionEffectArea.get_overlapping_bodies(), global_position.x, global_position.y)
-			queue_free()
 		potionTimer -= 1
 
 

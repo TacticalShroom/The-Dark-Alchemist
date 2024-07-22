@@ -20,6 +20,15 @@ extends CharacterBody2D
 @onready var explosionPotion = $UI/Potions/Explosion
 @onready var ragePotion = $UI/Potions/Rage
 
+#PARTICLES
+@onready var explosionParticles = $ExplosionParticles
+@onready var banishParticles = $BanishParticles
+@onready var teleportParticles = $TeleportParticles
+@onready var brittleParticles = $BrittleParticles
+@onready var rageParticles = $RageParticles
+@onready var freezeParticles = $FreezeParticles
+@onready var shadowParticles = $ShadowParticles
+
 @onready var potionWheel = $UI/PotionWheel
 @onready var bottleProjectile = $BottleProjectile
 @onready var block = $Block
@@ -112,6 +121,12 @@ func _physics_process(delta):
 		updateHurtBox()
 
 func updateSprite():
+	if attackTimer > 0:
+		if direction.x >= 0:
+			playerSprite.play("AttackRight")
+		else:
+			playerSprite.play("AttackLeft")
+		return
 	if velocity.x > 0:
 		playerSprite.play("RunRight")
 	elif velocity.x < 0:
@@ -253,7 +268,8 @@ func potionListener():
 func throwPotion(potionType: PotionTypes):
 	var potionProjectile = bottleProjectile.duplicate()
 	potionProjectile.visible = true
-	add_child(potionProjectile)
+	get_parent().add_child(potionProjectile)
+	potionProjectile.global_position = self.global_position
 	potionProjectile.connect("bottle_landed", onBottleHit)
 	
 	potionProjectile.throw(potionType, direction)
@@ -268,6 +284,7 @@ func splashPotion(potionType : PotionTypes, effectedBoddies : Array = [], x : in
 		PotionTypes.SHADOW:
 			self.remove_from_group("Player")
 			shadowTimer.start()
+			shadowParticles.emitting = true
 		PotionTypes.BRITTLE:
 			for body in effectedBoddies:
 				if !body.is_in_group("Brittle"):
@@ -275,6 +292,8 @@ func splashPotion(potionType : PotionTypes, effectedBoddies : Array = [], x : in
 		PotionTypes.TELEPORT:
 			global_position.x = x
 			global_position.y = y
+			
+			teleportParticles.emitting = true
 		PotionTypes.BANISH:
 			for body in effectedBoddies:
 				if body.is_in_group("Hit"):
@@ -310,6 +329,7 @@ func splashPotion(potionType : PotionTypes, effectedBoddies : Array = [], x : in
 			
 			speedMulti = 2
 			health = 150
+			rageParticles.emitting = true
 
 func timerFinished():
 	for body in get_tree().get_nodes_in_group("Hit"):
