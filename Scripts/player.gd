@@ -1,7 +1,9 @@
 class_name Player
 extends CharacterBody2D
 
-@onready var rageTimer = $RageTimer
+@onready var potionEffectTimer = $PotionEffectTimer
+@onready var shadowTimer = $ShadowTimer
+
 @onready var playerSprite = $PlayerSprite
 @onready var hurtBox = $Area2D/CollisionShape2D
 
@@ -20,6 +22,7 @@ extends CharacterBody2D
 
 @onready var potionWheel = $UI/PotionWheel
 @onready var bottleProjectile = $BottleProjectile
+@onready var block = $Block
 
 @onready var potions = [shadowPotion, brittlePotion, teleportPotion, banishPotion, freezePotion, blockPotion, explosionPotion, ragePotion]
 #-------------------------------------------------
@@ -41,8 +44,10 @@ var attackCoolDown = 0.25 #time between attacks
 
 var coolDownTimer = 0.0
 var speedMulti = 1
-var shadowShards = 50
+var shadowShards = 100
 var maxShadowShards = 100
+
+var banishedEnemies = []
 
 enum PotionTypes {
 	SHADOW,
@@ -253,38 +258,69 @@ func throwPotion(potionType: PotionTypes):
 	
 	potionProjectile.throw(potionType, direction)
 
-func onBottleHit(type, x, y):
-	splashPotion(type, x, y)
+func onBottleHit(type, bodies, x, y):
+	splashPotion(type, bodies, x, y)
 
-func splashPotion(potionType : PotionTypes, x : int = 0, y : int = 0):
+var explosionDmg = 75
+
+func splashPotion(potionType : PotionTypes, effectedBoddies : Array = [], x : int = 0, y : int = 0):
 	match potionType:
 		PotionTypes.SHADOW:
-			pass
+			self.remove_from_group("Player")
+			shadowTimer.start()
 		PotionTypes.BRITTLE:
-			pass
+			for body in effectedBoddies:
+				if !body.is_in_group("Brittle"):
+					body.add_to_group("Brittle")
 		PotionTypes.TELEPORT:
 			global_position.x = x
 			global_position.y = y
 		PotionTypes.BANISH:
-			pass
+			for body in effectedBoddies:
+				if body.is_in_group("Hit"):
+					banishedEnemies.append(body)
+					body.global_position.x = 9999999
+					body.global_position.y = 9999999 
 		PotionTypes.FREEZE:
-			pass
+			for body in effectedBoddies:
+				if body.is_in_group("Hit"):
+					if potionEffectTimer.is_stopped():
+						potionEffectTimer.start() 
+					body.process_mode = PROCESS_MODE_DISABLED
 		PotionTypes.BLOCK:
-			pass
+			var potionBlock = block.duplicate()
+			get_parent().add_child(potionBlock)
+			var pos = Vector2.ZERO
+			pos.x = x
+			pos.y = y
+			potionBlock.global_position = pos
+			potionBlock.visible = true
+			potionBlock.setCollision(false)
 		PotionTypes.EXPLOSION:
-			pass
+			for body in effectedBoddies:
+				if body.is_in_group("Hit"):
+					var dir = Vector2.ZERO
+					dir.x = body.global_position.x - x
+					dir.y = body.global_position.y - y
+					dir = dir.normalized()
+					body.onHurt(explosionDmg, dir)
 		PotionTypes.RAGE:
-			if rageTimer.is_stopped():
-				rageTimer.start()
+			if potionEffectTimer.is_stopped():
+				potionEffectTimer.start()
 			
 			speedMulti = 2
 			health = 150
 
-
-func rageTimerFinished():
+func timerFinished():
+	for body in get_tree().get_nodes_in_group("Hit"):
+		body.process_mode = PROCESS_MODE_ALWAYS
 	speedMulti = 1
-	
+
 func onHurt(damage):
 	health -= damage
 	if (health <= 0):
 		self.queue_free() #you die
+
+
+func ShadowTimout():
+	self.add_to_group("Player")
