@@ -1,8 +1,8 @@
 [gd_scene load_steps=5 format=3 uid="uid://dj6cccmc0d7ek"]
 
 [ext_resource type="PackedScene" uid="uid://btrukjk2uka8" path="res://Scenes/player.tscn" id="1_eltox"]
-[ext_resource type="PackedScene" uid="uid://bq7hq4setk8y4" path="res://Scenes/enemy.tscn" id="2_tao72"]
-[ext_resource type="PackedScene" path="res://Scenes/enemyTurret.tscn" id="4_pmgvj"]
+[ext_resource type="PackedScene" uid="uid://cho5mvud6kd7g" path="res://Scenes/enemy.tscn" id="2_tao72"]
+[ext_resource type="PackedScene" uid="uid://b4g2gqanvlil4" path="res://Scenes/enemyTurret.tscn" id="4_pmgvj"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fhkvh"]
 size = Vector2(43, 133)
@@ -53,5 +53,8 @@ position = Vector2(257, 159)
 position = Vector2(226, 112)
 
 [node name="EnemyTurret" parent="." instance=ExtResource("4_pmgvj")]
-position = Vector2(47, 59)
+position = Vector2(19, 136)
 starting_dir = Vector2(-1, 0)
+
+[node name="EnemyTurret2" parent="." instance=ExtResource("4_pmgvj")]
+position = Vector2(18, 180)
