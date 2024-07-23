@@ -555,7 +555,7 @@ position = Vector2(0, 105)
 
 [node name="Shadow" type="Area2D" parent="UI/Potions"]
 script = ExtResource("3_3oqpm")
-shardCost = 5
+shardCost = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="UI/Potions/Shadow"]
 shape = SubResource("RectangleShape2D_64s5g")
@@ -566,7 +566,7 @@ texture = ExtResource("4_p8ojs")
 
 [node name="Brittle" type="Area2D" parent="UI/Potions"]
 script = ExtResource("3_3oqpm")
-shardCost = 2
+shardCost = 4
 potionType = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="UI/Potions/Brittle"]
@@ -578,7 +578,7 @@ texture = ExtResource("5_nn8gn")
 
 [node name="Teleport" type="Area2D" parent="UI/Potions"]
 script = ExtResource("3_3oqpm")
-shardCost = 7
+shardCost = 5
 potionType = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="UI/Potions/Teleport"]
@@ -590,7 +590,7 @@ texture = ExtResource("6_j7uv8")
 
 [node name="Banish" type="Area2D" parent="UI/Potions"]
 script = ExtResource("3_3oqpm")
-shardCost = 15
+shardCost = 10
 potionType = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="UI/Potions/Banish"]
@@ -602,7 +602,7 @@ texture = ExtResource("7_8prmj")
 
 [node name="Freeze" type="Area2D" parent="UI/Potions"]
 script = ExtResource("3_3oqpm")
-shardCost = 3
+shardCost = 2
 potionType = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="UI/Potions/Freeze"]
@@ -614,7 +614,7 @@ texture = ExtResource("8_oeyqk")
 
 [node name="Block" type="Area2D" parent="UI/Potions"]
 script = ExtResource("3_3oqpm")
-shardCost = 3
+shardCost = 5
 potionType = 5
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="UI/Potions/Block"]
@@ -626,7 +626,7 @@ texture = ExtResource("9_r5hew")
 
 [node name="Explosion" type="Area2D" parent="UI/Potions"]
 script = ExtResource("3_3oqpm")
-shardCost = 10
+shardCost = 4
 potionType = 6
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="UI/Potions/Explosion"]
@@ -647,6 +647,13 @@ disabled = true
 
 [node name="sprite" type="Sprite2D" parent="UI/Potions/Rage"]
 texture = ExtResource("11_wo8rg")
+
+[node name="Potion" type="RichTextLabel" parent="UI/Potions"]
+offset_left = -14.0
+offset_top = -28.0
+offset_right = 26.0
+offset_bottom = -9.0
+theme_override_font_sizes/normal_font_size = 6
 
 [node name="HealthBar" type="Node2D" parent="UI"]
 position = Vector2(-160, 35)
@@ -748,6 +755,20 @@ volume_db = 3.0
 [node name="Select" type="AudioStreamPlayer2D" parent="PlayerSounds"]
 stream = ExtResource("33_t0csp")
 volume_db = -1.874
+
+[node name="ShadowShards" type="RichTextLabel" parent="."]
+offset_left = 89.0
+offset_top = 60.0
+offset_right = 122.0
+offset_bottom = 79.0
+theme_override_font_sizes/normal_font_size = 6
+
+[node name="Health" type="RichTextLabel" parent="."]
+offset_left = -109.0
+offset_top = 60.0
+offset_right = -69.0
+offset_bottom = 79.0
+theme_override_font_sizes/normal_font_size = 6
 
 [connection signal="body_shape_entered" from="Area2D" to="." method="_on_area_2d_body_shape_entered"]
 [connection signal="timeout" from="PotionEffectTimer" to="." method="timerFinished"]

@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3 uid="uid://wg345ryqsjrx"]
+
+[ext_resource type="Script" path="res://Scripts/Box.gd" id="1_bc4p3"]
+[ext_resource type="Texture2D" uid="uid://scpc5eg7jmt0" path="res://Textures/Objects/Box_4.png" id="1_w01pv"]
+[ext_resource type="AudioStream" uid="uid://61xn0o5ywjv2" path="res://Sounds/BoxBreak.wav" id="3_odgwt"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_t3ts3"]
+size = Vector2(16, 16)
+
+[node name="Box4" type="StaticBody2D" groups=["Brittle"]]
+script = ExtResource("1_bc4p3")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_w01pv")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_t3ts3")
+
+[node name="BreakSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_odgwt")
+
+[node name="QueueTimer" type="Timer" parent="."]
+wait_time = 10.0
+
+[connection signal="timeout" from="QueueTimer" to="." method="queueTimeout"]

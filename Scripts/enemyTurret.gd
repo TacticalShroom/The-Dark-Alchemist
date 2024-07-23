@@ -3,9 +3,14 @@ extends CharacterBody2D
 
 @onready var bullet = $Area2D
 @onready var animation = $Sprite2D/AnimationPlayer
+@onready var deathParticles = $DeathParticles
+@onready var deathTimer = $DeathTimer
+@onready var healthBar = $HealthBar
 
 var maxHealth = 100
 var health = maxHealth
+
+var damageTakenMulti = 1
 
 var angleConeOfVision := deg_to_rad(180.0)
 var maxViewDistance := 200.0
@@ -29,16 +34,29 @@ var currentFrame = 0
 var frameProgress = 0.0
 var facingRight = false
 var state = 0 # 0 is idle, 1 is aiming, 2 is shooting
+@export var shadowShardReward = 5
 
 var target = null
 var rayCount = 0
 
 func onHurt(damage, knockBackDir):
-	health -= damage
+	health -= damage*damageTakenMulti
 	setHealthBar()
 	if (health <= 0):
-		self.queue_free()
-		
+		animation.get_parent().visible = false
+		healthBar.visible = false
+		for ray in get_children():
+			if ray is RayCast2D:
+				ray.enabled = false
+		deathTimer.start()
+		deathParticles.emitting = true
+		for player in get_parent().get_children():
+			if player is Player:
+				player.shadowShards += shadowShardReward
+
+func deathTimeout():
+	self.queue_free()
+	
 func _ready():
 	var rng = RandomNumberGenerator.new()
 	generateRaycasts()
@@ -133,6 +151,8 @@ func generateRaycasts():
 		add_child(ray)
 		ray.enabled = true
 
+func shatter():
+	damageTakenMulti = 2
 
 func _on_area_2d_body_shape_entered(body_rid, body, body_shape_index, local_shape_index):
 	if body.is_in_group("Player"):

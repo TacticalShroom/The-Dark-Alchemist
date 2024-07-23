@@ -1,7 +1,9 @@
-[gd_scene load_steps=12 format=3 uid="uid://bq7hq4setk8y4"]
+[gd_scene load_steps=15 format=3 uid="uid://bq7hq4setk8y4"]
 
 [ext_resource type="Script" path="res://Scripts/enemyCommon.gd" id="1_rcwf3"]
 [ext_resource type="Texture2D" uid="uid://ilx51arr44lw" path="res://Textures/Enemies/CommonShadowEnemy.png" id="2_a468c"]
+[ext_resource type="AudioStream" uid="uid://628pe57aoyn5" path="res://Sounds/EnemyIdleGroan.wav" id="3_unm0a"]
+[ext_resource type="AudioStream" uid="uid://dcmqhxn6qng0u" path="res://Sounds/EnemyAttack.wav" id="4_jls31"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nnbqa"]
 size = Vector2(27, 28)
@@ -121,6 +123,19 @@ _data = {
 "walk_right": SubResource("Animation_02qeh")
 }
 
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_0s3l3"]
+emission_shape = 3
+emission_box_extents = Vector3(8, 1, 1)
+particle_flag_disable_z = true
+direction = Vector3(0, -1, 0)
+spread = 109.42
+gravity = Vector3(0, -60, 0)
+initial_velocity_min = -10.0
+initial_velocity_max = -10.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+color = Color(0, 0, 0, 1)
+
 [node name="Enemy" type="CharacterBody2D" groups=["Hit"]]
 motion_mode = 1
 script = ExtResource("1_rcwf3")
@@ -156,4 +171,19 @@ libraries = {
 "": SubResource("AnimationLibrary_0yb3k")
 }
 
+[node name="IdleSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_unm0a")
+
+[node name="Attack" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_jls31")
+
+[node name="DeathParticles" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 120
+process_material = SubResource("ParticleProcessMaterial_0s3l3")
+one_shot = true
+
+[node name="DeathTimer" type="Timer" parent="."]
+
 [connection signal="body_shape_entered" from="Area2D" to="." method="_on_area_2d_body_shape_entered"]
+[connection signal="timeout" from="DeathTimer" to="." method="deathTimeout"]

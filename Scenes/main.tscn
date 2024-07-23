@@ -1,9 +1,13 @@
-[gd_scene load_steps=5 format=3 uid="uid://dj6cccmc0d7ek"]
+[gd_scene load_steps=9 format=3 uid="uid://dj6cccmc0d7ek"]
 
 [ext_resource type="PackedScene" uid="uid://btrukjk2uka8" path="res://Scenes/player.tscn" id="1_eltox"]
 [ext_resource type="PackedScene" uid="uid://bt5ioak8asgcx" path="res://Scenes/tileMap.tscn" id="1_firmh"]
 [ext_resource type="PackedScene" uid="uid://bq7hq4setk8y4" path="res://Scenes/enemy.tscn" id="2_tao72"]
-[ext_resource type="PackedScene" path="res://Scenes/enemyTurret.tscn" id="4_pmgvj"]
+[ext_resource type="PackedScene" uid="uid://b4g2gqanvlil4" path="res://Scenes/enemyTurret.tscn" id="4_pmgvj"]
+[ext_resource type="PackedScene" uid="uid://dq1l4ha1jb85u" path="res://Scenes/Box3.tscn" id="5_uywa7"]
+[ext_resource type="PackedScene" uid="uid://wg345ryqsjrx" path="res://Scenes/Box4.tscn" id="6_hdhmr"]
+[ext_resource type="PackedScene" uid="uid://ryeyigkgc8ba" path="res://Scenes/Box2.tscn" id="7_bkhv1"]
+[ext_resource type="PackedScene" uid="uid://n33ct0k8v5xg" path="res://Scenes/Box1.tscn" id="8_hih3s"]
 
 [node name="Main" type="Node2D"]
 y_sort_enabled = true
@@ -19,7 +23,7 @@ layer_1/modulate = Color(1, 1, 1, 1)
 layer_1/y_sort_enabled = false
 layer_1/y_sort_origin = 0
 layer_1/z_index = 1
-layer_1/tile_data = PackedInt32Array(-524271, 720896, 14, -65517, 655360, 11, -458733, 589824, 9, -458737, 524288, 8, -524272, 458752, 12, -524270, 458752, 12, -262138, 458752, 12, -262133, 458752, 12)
+layer_1/tile_data = PackedInt32Array(-524271, 720896, 14, -65517, 655360, 11, -524272, 458752, 12, -524270, 458752, 12, -262138, 458752, 12, -262133, 458752, 12)
 
 [node name="Player" parent="." instance=ExtResource("1_eltox")]
 z_index = 1
@@ -45,3 +49,16 @@ position = Vector2(498, -17)
 
 [node name="EnemyTurret2" parent="." instance=ExtResource("4_pmgvj")]
 position = Vector2(371, 119)
+
+[node name="Box3" parent="." instance=ExtResource("5_uywa7")]
+z_index = 1
+position = Vector2(83, 52)
+
+[node name="Box4" parent="." instance=ExtResource("6_hdhmr")]
+position = Vector2(247, 54)
+
+[node name="Box2" parent="." instance=ExtResource("7_bkhv1")]
+position = Vector2(244, 153)
+
+[node name="Box1" parent="." instance=ExtResource("8_hih3s")]
+position = Vector2(76, 107)

@@ -3,6 +3,12 @@ extends CharacterBody2D
 
 @onready var hurtBox = $Area2D/CollisionShape2D
 @onready var sprite = $Sprite2D/AnimationPlayer
+@onready var idleSound = $IdleSound
+@onready var attackSound = $Attack
+@onready var deathParticles = $DeathParticles
+@onready var deathTimer = $DeathTimer
+@onready var healthBar = $HealthBar
+
 var frameProgress = 0.0
 
 var maxHealth = 100
@@ -12,9 +18,12 @@ var angleConeOfVision := deg_to_rad(80.0)
 var maxViewDistance := 400.0
 var angleBetweenRays := deg_to_rad(5.0)
 
+var damageTakenMulti = 1
+
 
 var direction = Vector2(1,0)
 @export var starting_dir = Vector2(1,0)
+@export var shadowShardReward = 2
 var movement = starting_dir
 var movementSpeed = 100
 var acceleration = 25
@@ -35,15 +44,27 @@ var target = null
 var rayCount = 0
 
 func onHurt(damage, knockBackDir):
-	health -= damage
+	health -= damage*damageTakenMulti
 	setHealthBar()
 	knockBackTimer = knockBackDuration
 	knockBackDirection = knockBackDir
 	movement = Vector2(-knockBackDir.x, -knockBackDir.y)
 	movement = movement.normalized()
 	if (health <= 0):
-		self.queue_free()
-		
+		sprite.get_parent().visible = false
+		healthBar.visible = false
+		for ray in get_children():
+			if ray is RayCast2D:
+				ray.enabled = false
+		deathTimer.start()
+		deathParticles.emitting = true
+		for player in get_parent().get_children():
+			if player is Player:
+				player.shadowShards += shadowShardReward
+
+func deathTimeout():
+	self.queue_free()
+
 func _ready():
 	var rng = RandomNumberGenerator.new()
 	generateRaycasts()
@@ -83,6 +104,8 @@ func _physics_process(delta):
 		elif attackTimer <= 0.0 && coolDownTimer <= 0.0:
 			movement = movement.normalized()
 			hurtBox.disabled = false #initiate attack
+			if !attackSound.playing:
+				attackSound.play()
 			attackTimer = attackDuration
 			coolDownTimer = attackCoolDown + attackDuration
 		else:
@@ -105,6 +128,9 @@ func _physics_process(delta):
 				coolDownTimer -= delta
 			movement = movement.normalized()
 	else:
+		if RandomNumberGenerator.new().randi_range(0, 420) == 69 && !idleSound.playing:
+			idleSound.play()
+		
 		if (direction.x > 0):
 			sprite.play("idle_right")
 		else:
@@ -134,8 +160,9 @@ func _physics_process(delta):
 	hurtBox.position.y = direction.y * attackRange
 	direction = movement
 	
-	
-	
+
+func shatter():
+	damageTakenMulti = 2
 
 func generateRaycasts():
 	rayCount = angleConeOfVision / angleBetweenRays

@@ -24,6 +24,11 @@ extends CharacterBody2D
 @onready var healthBar = $UI/HealthBar/MiddleLayer
 @onready var shadowBar = $UI/BottleOShadow/MiddleLayer
 
+@onready var shadowShardsText = $ShadowShards
+@onready var healthText = $Health
+@onready var potionText = $UI/Potions/Potion
+
+
 #---------------------POTIONS---------------------
 @onready var shadowPotion = $UI/Potions/Shadow
 @onready var brittlePotion = $UI/Potions/Brittle
@@ -71,8 +76,8 @@ var knockBackDuration = 0.2
 
 var coolDownTimer = 0.0
 var speedMulti = 1
-var shadowShards = 100
-var maxShadowShards = 100
+var shadowShards = 0
+var maxShadowShards = 20
 
 var banishedEnemies = []
 
@@ -180,6 +185,7 @@ var barMinSize = 48
 var barMaxSize = 128
 
 func updateUI():
+	
 	#HEALTH
 	if health > maxHealth:
 		healthBar.position.y = barYFull
@@ -190,13 +196,18 @@ func updateUI():
 		healthBar.position.y = healthBarY
 		healthBar.size.y = healthBarSize
 	
+	healthText.text = str(health) + "/" + str(maxHealth)
 	#SHADOW
 	
+	if shadowShards > maxShadowShards:
+		shadowShards = maxShadowShards
 	
 	var shadowBarSize = int((float(shadowShards) / float(maxShadowShards)) * (barMaxSize - barMinSize) + barMinSize)
 	var shadowBarY = barYFull + (barMaxSize - shadowBarSize)
 	shadowBar.position.y = shadowBarY
 	shadowBar.size.y = shadowBarSize
+	
+	shadowShardsText.text = str(shadowShards) + "/" + str(maxShadowShards)
 
 func updateHurtBox():
 	hurtBox.rotation = atan2(mouseDirection.y, mouseDirection.x)
@@ -204,10 +215,11 @@ func updateHurtBox():
 	hurtBox.position.y = mouseDirection.y * hurtBoxDistance
 
 func _on_area_2d_body_shape_entered(body_rid, body, body_shape_index, local_shape_index):
+	if body.is_in_group("Brittle"):
+		body.shatter()
 	if body.is_in_group("Hit"):
 		direction = direction.normalized()
 		body.onHurt(atkDamage, mouseDirection)
-	
 
 const potionWheelVel = 0.1
 const potionWheelScale = 1
@@ -243,6 +255,7 @@ func potionListener():
 	if Input.is_action_just_pressed("PotionMenu") || Input.is_action_just_released("PotionMenu"):
 		select.play()
 	if Input.is_action_pressed("PotionMenu"):
+		potionText.text = "Cost: " + str(potions[selectedPotionIndex].getCost())
 		var i = 0
 		for potion in potions:
 			if i != selectedPotionIndex:
@@ -260,6 +273,7 @@ func potionListener():
 		for potion in potions:
 			potion.getSprite().position.x = move_toward(potion.getSprite().position.x, (64 * sign(potion.getSprite().position.x))*potionWheelScale, 64*potionWheelVel)
 	else:
+		potionText.text = ""
 		potionWheel.scale.x = move_toward(potionWheel.scale.x, 0.5, potionWheelVel)
 		potionWheel.scale.y = move_toward(potionWheel.scale.y, 0.5, potionWheelVel)
 		#potionWheel.position.x = move_toward(potionWheel.position.x, 160, 0.5)
