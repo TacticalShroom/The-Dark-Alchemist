@@ -1,6 +1,20 @@
 class_name Player
 extends CharacterBody2D
 
+#---------------------SOUNDS----------------------
+@onready var footstep1 = $PlayerSounds/Footstep1
+@onready var footstep2 = $PlayerSounds/Footstep2
+@onready var footstep3 = $PlayerSounds/Footstep3
+@onready var movePotion = $PlayerSounds/MovePotion
+@onready var openningPotion = $PlayerSounds/OpenningPotion
+@onready var punch = $PlayerSounds/Punch
+@onready var throwPotionSound = $PlayerSounds/ThrowPotion
+@onready var drinkPotion = $PlayerSounds/DrinkPotion
+@onready var select = $PlayerSounds/Select
+
+@onready var footsteps = [footstep1, footstep2, footstep3]
+#-------------------------------------------------
+
 @onready var potionEffectTimer = $PotionEffectTimer
 @onready var shadowTimer = $ShadowTimer
 
@@ -80,6 +94,7 @@ func _ready():
 
 func _physics_process(delta):
 	if (Input.is_action_pressed("attack") && coolDownTimer <= 0.0 && attackTimer <= 0.0):
+		punch.play()
 		hurtBox.disabled = false
 		attackTimer = attackDuration
 		coolDownTimer = attackCoolDown + attackDuration
@@ -127,6 +142,10 @@ func updateSprite():
 		else:
 			playerSprite.play("AttackLeft")
 		return
+	if velocity != Vector2.ZERO:
+		if playerSprite.frame == 7 || playerSprite.frame == 3:
+			if playerSprite.frame_progress <= 0.25:
+				footsteps.pick_random().play()
 	if velocity.x > 0:
 		playerSprite.play("RunRight")
 	elif velocity.x < 0:
@@ -140,6 +159,9 @@ func updateSprite():
 			playerSprite.play("IdleRight")
 		else:
 			playerSprite.play("IdleLeft")
+
+func isNotPlaying(sound):
+	return !sound.playing
 
 var barYZero = 128
 var barYFull = 48
@@ -208,7 +230,8 @@ func potionListener():
 					throwPotion(PotionTypes.EXPLOSION)
 				PotionTypes.RAGE:
 					splashPotion(PotionTypes.RAGE)
-	
+	if Input.is_action_just_pressed("PotionMenu") || Input.is_action_just_released("PotionMenu"):
+		select.play()
 	if Input.is_action_pressed("PotionMenu"):
 		var i = 0
 		for potion in potions:
@@ -243,12 +266,14 @@ func potionListener():
 			potion.getSprite().position.x = move_toward(potion.getSprite().position.x, (32 * sign(potion.getSprite().position.x)), 64*potionWheelVel)
 	if !spinning && Input.is_action_pressed("PotionMenu"):
 		if Input.is_action_just_pressed("scroll_up"):
+			movePotion.play()
 			spinDir = 1
 			spinning = true
 			selectedPotionIndex -= 1
 			if selectedPotionIndex <= -1:
 				selectedPotionIndex = potions.size()-1
 		if Input.is_action_just_pressed("scroll_down"):
+			movePotion.play()
 			spinDir = -1
 			spinning = true
 			selectedPotionIndex += 1
@@ -271,7 +296,8 @@ func throwPotion(potionType: PotionTypes):
 	get_parent().add_child(potionProjectile)
 	potionProjectile.global_position = self.global_position
 	potionProjectile.connect("bottle_landed", onBottleHit)
-	
+	openningPotion.play()
+	throwPotionSound.play()
 	potionProjectile.throw(potionType, direction)
 
 func onBottleHit(type, bodies, x, y):
@@ -285,6 +311,8 @@ func splashPotion(potionType : PotionTypes, effectedBoddies : Array = [], x : in
 			self.remove_from_group("Player")
 			shadowTimer.start()
 			shadowParticles.emitting = true
+			openningPotion.play()
+			drinkPotion.play()
 		PotionTypes.BRITTLE:
 			for body in effectedBoddies:
 				if !body.is_in_group("Brittle"):
@@ -326,7 +354,8 @@ func splashPotion(potionType : PotionTypes, effectedBoddies : Array = [], x : in
 		PotionTypes.RAGE:
 			if potionEffectTimer.is_stopped():
 				potionEffectTimer.start()
-			
+			openningPotion.play()
+			drinkPotion.play()
 			speedMulti = 2
 			health = 150
 			rageParticles.emitting = true
