@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://bq7hq4setk8y4"]
+[gd_scene load_steps=12 format=3 uid="uid://cho5mvud6kd7g"]
 
 [ext_resource type="Script" path="res://Scripts/enemyCommon.gd" id="1_rcwf3"]
 [ext_resource type="Texture2D" uid="uid://ilx51arr44lw" path="res://Textures/Enemies/CommonShadowEnemy.png" id="2_a468c"]
@@ -150,7 +150,6 @@ disabled = true
 texture_filter = 1
 texture = ExtResource("2_a468c")
 hframes = 32
-frame = 22
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite2D"]
 libraries = {
