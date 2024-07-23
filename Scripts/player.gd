@@ -53,7 +53,7 @@ extends CharacterBody2D
 const MAX_SPEED = 150
 const ACCELERATION = 50
 
-
+var mouseDirection = Vector2.ZERO
 
 var atkDamage = 25
 var maxHealth = 100
@@ -64,6 +64,10 @@ var hurtBoxDistance = 30 #attack range
 var attackTimer = 0.0
 var attackDuration = 0.25
 var attackCoolDown = 0.25 #time between attacks
+var knockBackDirection = Vector2.ZERO
+var knockBackTimer = 0.0
+var knockBackSpeed = 3000
+var knockBackDuration = 0.2
 
 var coolDownTimer = 0.0
 var speedMulti = 1
@@ -93,6 +97,9 @@ func _ready():
 		i += 1
 
 func _physics_process(delta):
+	
+	mouseDirection = Vector2(get_global_mouse_position().x - position.x, get_global_mouse_position().y - position.y).normalized()
+	
 	if (Input.is_action_pressed("attack") && coolDownTimer <= 0.0 && attackTimer <= 0.0):
 		punch.play()
 		hurtBox.disabled = false
@@ -109,7 +116,7 @@ func _physics_process(delta):
 
 	var movement = Vector2.ZERO
 	
-	if attackTimer <= 0.0:
+	if attackTimer <= 0.0 && knockBackTimer <= 0.0:
 		if Input.is_action_pressed("up"):
 			movement.y -= 1
 		if Input.is_action_pressed("down"):
@@ -127,17 +134,20 @@ func _physics_process(delta):
 	velocity.x = move_toward(velocity.x, movement.x*MAX_SPEED*speedMulti, ACCELERATION)
 	velocity.y = move_toward(velocity.y, movement.y*MAX_SPEED*speedMulti, ACCELERATION)
 	
-	updateSprite()
+	if knockBackTimer <= 0.0:
+		updateSprite()
 	updateUI()
 	potionListener()
 	move_and_slide()
+	if knockBackTimer > 0.0:
+		takeKnockBack(delta)
 
 	if attackTimer <= 0.0:
 		updateHurtBox()
 
 func updateSprite():
 	if attackTimer > 0:
-		if direction.x >= 0:
+		if mouseDirection.x >= 0:
 			playerSprite.play("AttackRight")
 		else:
 			playerSprite.play("AttackLeft")
@@ -189,14 +199,14 @@ func updateUI():
 	shadowBar.size.y = shadowBarSize
 
 func updateHurtBox():
-	hurtBox.rotation = atan2(direction.y, direction.x)
-	hurtBox.position.x = direction.x * hurtBoxDistance
-	hurtBox.position.y = direction.y * hurtBoxDistance
+	hurtBox.rotation = atan2(mouseDirection.y, mouseDirection.x)
+	hurtBox.position.x = mouseDirection.x * hurtBoxDistance
+	hurtBox.position.y = mouseDirection.y * hurtBoxDistance
 
 func _on_area_2d_body_shape_entered(body_rid, body, body_shape_index, local_shape_index):
 	if body.is_in_group("Hit"):
 		direction = direction.normalized()
-		body.onHurt(atkDamage, direction)
+		body.onHurt(atkDamage, mouseDirection)
 	
 
 const potionWheelVel = 0.1
@@ -296,9 +306,10 @@ func throwPotion(potionType: PotionTypes):
 	get_parent().add_child(potionProjectile)
 	potionProjectile.global_position = self.global_position
 	potionProjectile.connect("bottle_landed", onBottleHit)
+
 	openningPotion.play()
 	throwPotionSound.play()
-	potionProjectile.throw(potionType, direction)
+	potionProjectile.throw(potionType, mouseDirection)
 
 func onBottleHit(type, bodies, x, y):
 	splashPotion(type, bodies, x, y)
@@ -365,11 +376,18 @@ func timerFinished():
 		body.process_mode = PROCESS_MODE_ALWAYS
 	speedMulti = 1
 
-func onHurt(damage):
+func onHurt(damage, knockBackDir):
 	health -= damage
+	knockBackTimer = knockBackDuration
+	knockBackDirection = knockBackDir
 	if (health <= 0):
 		self.queue_free() #you die
 
+func takeKnockBack(delta):
+	knockBackTimer -= delta
+	velocity.x = move_toward(velocity.x, knockBackDirection.x * knockBackSpeed, ACCELERATION*1.15)
+	velocity.y = move_toward(velocity.y, knockBackDirection.y * knockBackSpeed, ACCELERATION*1.15)
+	move_and_slide()
 
 func ShadowTimout():
 	self.add_to_group("Player")

@@ -3,6 +3,7 @@ extends CharacterBody2D
 
 @onready var hurtBox = $Area2D/CollisionShape2D
 @onready var sprite = $Sprite2D/AnimationPlayer
+var frameProgress = 0.0
 
 var maxHealth = 100
 var health = maxHealth
@@ -27,6 +28,8 @@ var knockBackSpeed = 300
 var knockBackDuration = 0.2
 var knockBackTimer = 0.0
 var knockBackDirection = Vector2.ZERO
+var facingRight = false
+var hit = false
 
 var target = null
 var rayCount = 0
@@ -42,10 +45,16 @@ func onHurt(damage, knockBackDir):
 		self.queue_free()
 		
 func _ready():
+	var rng = RandomNumberGenerator.new()
 	generateRaycasts()
 	$HealthBar.max_value = maxHealth
 	setHealthBar()
 	movement = starting_dir
+	if starting_dir.x > 0:
+		sprite.play("idle_right")
+	else:
+		sprite.play("idle_left")
+	sprite.advance(rng.randi_range(0, 8)/10.0)
 
 func setHealthBar():
 	$HealthBar.value = health
@@ -53,14 +62,20 @@ func setHealthBar():
 
 func _physics_process(delta):
 	var doesSeePlayer = target != null
-	
+	frameProgress = sprite.current_animation_position
 	if (doesSeePlayer):
 		movement = Vector2(target.position.x - position.x, target.position.y - position.y)
 		if (abs(movement.x) > attackRange || abs(movement.y) > attackRange) && hurtBox.disabled == true && coolDownTimer <= attackCoolDown && coolDownTimer > attackCoolDown - 0.15:
 			if movement.x > 0:
 				sprite.play("walk_right")
+				if !facingRight:
+					facingRight = true
+					sprite.advance(frameProgress)
 			else:
 				sprite.play("walk_left")
+				if facingRight:
+					facingRight = false
+					sprite.advance(frameProgress)
 			movement = movement.normalized()
 			velocity.x = move_toward(velocity.x, movement.x * movementSpeed, acceleration)
 			velocity.y = move_toward(velocity.y, movement.y * movementSpeed, acceleration)
@@ -75,11 +90,18 @@ func _physics_process(delta):
 				attackTimer -= delta
 			else:
 				hurtBox.disabled = true #attack finishes
+				hit = false
 			if coolDownTimer > 0.0:
 				if movement.x > 0:
 					sprite.play("bite_right")
+					if !facingRight:
+						facingRight = true
+						sprite.advance(frameProgress)
 				else:
 					sprite.play("bite_left")
+					if facingRight:
+						facingRight = false
+						sprite.advance(frameProgress)
 				coolDownTimer -= delta
 			movement = movement.normalized()
 	else:
@@ -126,5 +148,6 @@ func generateRaycasts():
 
 
 func _on_area_2d_body_shape_entered(body_rid, body, body_shape_index, local_shape_index):
-	if body.is_in_group("Player"):
-		body.onHurt(atkDamage)
+	if body.is_in_group("Player") && !hit:
+		hit = true
+		body.onHurt(atkDamage, direction)

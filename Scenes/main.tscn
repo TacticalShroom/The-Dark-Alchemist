@@ -1,8 +1,10 @@
 [gd_scene load_steps=4 format=3 uid="uid://dj6cccmc0d7ek"]
 
 [ext_resource type="PackedScene" uid="uid://btrukjk2uka8" path="res://Scenes/player.tscn" id="1_eltox"]
+
 [ext_resource type="PackedScene" uid="uid://bt5ioak8asgcx" path="res://Scenes/tileMap.tscn" id="1_firmh"]
 [ext_resource type="PackedScene" uid="uid://bq7hq4setk8y4" path="res://Scenes/enemy.tscn" id="2_tao72"]
+
 
 [node name="Main" type="Node2D"]
 y_sort_enabled = true
@@ -38,3 +40,4 @@ starting_dir = Vector2(-1, -1)
 [node name="Enemy4" parent="." instance=ExtResource("2_tao72")]
 position = Vector2(371, 50)
 starting_dir = Vector2(0, 1)
+
