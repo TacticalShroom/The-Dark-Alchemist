@@ -49,6 +49,9 @@ func onHurt(damage, knockBackDir):
 			if ray is RayCast2D:
 				ray.enabled = false
 		deathTimer.start()
+		if target != null:
+			deathParticles.process_material.gravity.x = (target.position.x - position.x)*2
+			deathParticles.process_material.gravity.y = (target.position.y - position.y)*2
 		deathParticles.emitting = true
 		for player in get_parent().get_children():
 			if player is Player:

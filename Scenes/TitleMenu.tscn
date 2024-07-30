@@ -1,0 +1,98 @@
+[gd_scene load_steps=16 format=3 uid="uid://baojkxoj68j3i"]
+
+[ext_resource type="Texture2D" uid="uid://4ywot0da6e4f" path="res://Textures/UI/Background.png" id="1_aa2e6"]
+[ext_resource type="Script" path="res://Scripts/TitleMenu.gd" id="1_lcgif"]
+[ext_resource type="AudioStream" uid="uid://vv5xxtqsrdkk" path="res://Music/The Dark Alchemist (3).mp3" id="3_c3155"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_a4l0f"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_kgj0o"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hgigw"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ly4ii"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_vqhbr"]
+
+[sub_resource type="Theme" id="Theme_v8sns"]
+Button/styles/disabled = SubResource("StyleBoxEmpty_a4l0f")
+Button/styles/focus = SubResource("StyleBoxEmpty_kgj0o")
+Button/styles/hover = SubResource("StyleBoxEmpty_hgigw")
+Button/styles/normal = SubResource("StyleBoxEmpty_ly4ii")
+Button/styles/pressed = SubResource("StyleBoxEmpty_vqhbr")
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mko1c"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xnv4b"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_yxeyy"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1jvo0"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tx7re"]
+
+[sub_resource type="Theme" id="Theme_t1wet"]
+Button/styles/disabled = SubResource("StyleBoxEmpty_mko1c")
+Button/styles/focus = SubResource("StyleBoxEmpty_xnv4b")
+Button/styles/hover = SubResource("StyleBoxEmpty_yxeyy")
+Button/styles/normal = SubResource("StyleBoxEmpty_1jvo0")
+Button/styles/pressed = SubResource("StyleBoxEmpty_tx7re")
+
+[node name="TitleMenu" type="Node2D"]
+script = ExtResource("1_lcgif")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_right = 640.0
+offset_bottom = 180.0
+texture = ExtResource("1_aa2e6")
+stretch_mode = 1
+
+[node name="TitleButtons" type="CanvasLayer" parent="."]
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TitleButtons"]
+offset_left = 11.0
+offset_right = 211.0
+offset_bottom = 336.0
+scale = Vector2(0.5, 0.5)
+alignment = 1
+
+[node name="Logo" type="RichTextLabel" parent="TitleButtons/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/default_color = Color(0.603922, 0.423529, 0.835294, 1)
+theme_override_font_sizes/normal_font_size = 51
+text = "The Dark Alchemist"
+fit_content = true
+scroll_active = false
+
+[node name="PlayButton" type="Button" parent="TitleButtons/VBoxContainer"]
+layout_mode = 2
+focus_mode = 0
+theme = SubResource("Theme_v8sns")
+theme_override_colors/font_hover_color = Color(0.196078, 0.196078, 0.196078, 1)
+theme_override_colors/icon_normal_color = Color(0, 0, 0, 0)
+theme_override_colors/icon_pressed_color = Color(0, 0, 0, 0)
+theme_override_colors/icon_hover_color = Color(0, 0, 0, 0)
+theme_override_colors/icon_hover_pressed_color = Color(0, 0, 0, 0)
+theme_override_colors/icon_focus_color = Color(0, 0, 0, 0)
+theme_override_colors/icon_disabled_color = Color(0, 0, 0, 0)
+theme_override_font_sizes/font_size = 51
+action_mode = 0
+text = "Play"
+
+[node name="CreditButton" type="Button" parent="TitleButtons/VBoxContainer"]
+layout_mode = 2
+focus_mode = 0
+theme = SubResource("Theme_t1wet")
+theme_override_colors/font_color = Color(0.466667, 0.466667, 0.466667, 1)
+theme_override_colors/font_hover_color = Color(0.196078, 0.196078, 0.196078, 1)
+theme_override_font_sizes/font_size = 51
+action_mode = 0
+text = "Credits"
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_c3155")
+volume_db = -2.0
+autoplay = true
+
+[connection signal="pressed" from="TitleButtons/VBoxContainer/PlayButton" to="." method="playPressed"]
+[connection signal="pressed" from="TitleButtons/VBoxContainer/CreditButton" to="." method="creditPressed"]
