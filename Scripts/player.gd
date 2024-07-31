@@ -76,7 +76,7 @@ var knockBackDuration = 0.2
 
 var coolDownTimer = 0.0
 var speedMulti = 1
-var shadowShards = 0
+var shadowShards = 10
 var maxShadowShards = 20
 
 var banishedEnemies = []
@@ -370,6 +370,8 @@ func splashPotion(potionType : PotionTypes, effectedBoddies : Array = [], x : in
 			potionBlock.setCollision(false)
 		PotionTypes.EXPLOSION:
 			for body in effectedBoddies:
+				if body.is_in_group("Brittle"):
+					body.shatter()
 				if body.is_in_group("Hit"):
 					var dir = Vector2.ZERO
 					dir.x = body.global_position.x - x

@@ -1,8 +1,9 @@
-[gd_scene load_steps=16 format=3 uid="uid://baojkxoj68j3i"]
+[gd_scene load_steps=17 format=3 uid="uid://baojkxoj68j3i"]
 
 [ext_resource type="Texture2D" uid="uid://4ywot0da6e4f" path="res://Textures/UI/Background.png" id="1_aa2e6"]
 [ext_resource type="Script" path="res://Scripts/TitleMenu.gd" id="1_lcgif"]
 [ext_resource type="AudioStream" uid="uid://vv5xxtqsrdkk" path="res://Music/The Dark Alchemist (3).mp3" id="3_c3155"]
+[ext_resource type="AudioStream" uid="uid://bu17euu42hppv" path="res://Sounds/MenuSelect.wav" id="4_dqxp2"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_a4l0f"]
 
@@ -93,6 +94,9 @@ text = "Credits"
 stream = ExtResource("3_c3155")
 volume_db = -2.0
 autoplay = true
+
+[node name="MenuSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_dqxp2")
 
 [connection signal="pressed" from="TitleButtons/VBoxContainer/PlayButton" to="." method="playPressed"]
 [connection signal="pressed" from="TitleButtons/VBoxContainer/CreditButton" to="." method="creditPressed"]
