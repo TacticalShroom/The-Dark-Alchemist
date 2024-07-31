@@ -1,16 +1,17 @@
-[gd_scene load_steps=10 format=3 uid="uid://dj6cccmc0d7ek"]
+[gd_scene load_steps=11 format=3 uid="uid://dj6cccmc0d7ek"]
 
 [ext_resource type="PackedScene" uid="uid://btrukjk2uka8" path="res://Scenes/player.tscn" id="1_eltox"]
 [ext_resource type="PackedScene" uid="uid://bt5ioak8asgcx" path="res://Scenes/tileMap.tscn" id="1_firmh"]
-[ext_resource type="PackedScene" uid="uid://bq7hq4setk8y4" path="res://Scenes/enemy.tscn" id="2_tao72"]
+[ext_resource type="PackedScene" uid="uid://cho5mvud6kd7g" path="res://Scenes/enemy.tscn" id="2_tao72"]
 [ext_resource type="AudioStream" uid="uid://b3dx0yvwv7el" path="res://Music/Lost in Shadow (2).mp3" id="3_7kl25"]
 [ext_resource type="PackedScene" uid="uid://b4g2gqanvlil4" path="res://Scenes/enemyTurret.tscn" id="4_pmgvj"]
-[ext_resource type="PackedScene" uid="uid://dq1l4ha1jb85u" path="res://Scenes/Box3.tscn" id="5_uywa7"]
-[ext_resource type="PackedScene" uid="uid://wg345ryqsjrx" path="res://Scenes/Box4.tscn" id="6_hdhmr"]
-[ext_resource type="PackedScene" uid="uid://ryeyigkgc8ba" path="res://Scenes/Box2.tscn" id="7_bkhv1"]
-[ext_resource type="PackedScene" uid="uid://n33ct0k8v5xg" path="res://Scenes/Box1.tscn" id="8_hih3s"]
+[ext_resource type="PackedScene" path="res://Scenes/Box3.tscn" id="5_uywa7"]
+[ext_resource type="PackedScene" path="res://Scenes/Box4.tscn" id="6_hdhmr"]
+[ext_resource type="PackedScene" path="res://Scenes/Box2.tscn" id="7_bkhv1"]
+[ext_resource type="PackedScene" uid="uid://cf7j2l64ju0h6" path="res://Scenes/Box1.tscn" id="8_hih3s"]
+[ext_resource type="PackedScene" uid="uid://ds8geecc1j2sw" path="res://Scenes/floorButton.tscn" id="10_rjrln"]
 
-[node name="Main" type="Node2D"]
+[node name="Main" type="Node2D" groups=["main"]]
 y_sort_enabled = true
 position = Vector2(-1, 1)
 
@@ -59,4 +60,7 @@ position = Vector2(247, 54)
 position = Vector2(244, 153)
 
 [node name="Box1" parent="." instance=ExtResource("8_hih3s")]
-position = Vector2(76, 107)
+position = Vector2(164, 132)
+
+[node name="floorButton" parent="." instance=ExtResource("10_rjrln")]
+position = Vector2(162, 132)

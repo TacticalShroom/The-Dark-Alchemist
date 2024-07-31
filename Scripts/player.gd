@@ -50,7 +50,7 @@ extends CharacterBody2D
 
 @onready var potionWheel = $UI/PotionWheel
 @onready var bottleProjectile = $BottleProjectile
-@onready var block = $Block
+@onready var block = $Box1
 
 @onready var potions = [shadowPotion, brittlePotion, teleportPotion, banishPotion, freezePotion, blockPotion, explosionPotion, ragePotion]
 #-------------------------------------------------
@@ -363,9 +363,9 @@ func splashPotion(potionType : PotionTypes, effectedBoddies : Array = [], x : in
 			var potionBlock = block.duplicate()
 			get_parent().add_child(potionBlock)
 			var pos = Vector2.ZERO
-			pos.x = x
+			pos.x = x 
 			pos.y = y
-			potionBlock.global_position = pos
+			potionBlock.setPos(pos)
 			potionBlock.visible = true
 			potionBlock.setCollision(false)
 		PotionTypes.EXPLOSION:
