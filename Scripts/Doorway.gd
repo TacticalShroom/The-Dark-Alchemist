@@ -6,7 +6,7 @@ extends Node2D
 @onready var doorPass = $DoorPass
 @export var doorCoords : Vector2i = Vector2i(-1, -1)
 
-var isOpen = true
+@export var isOpen = false
 var justPassed = false
 
 func doorSideTwoBody(body):
@@ -31,7 +31,6 @@ func doorSideOneExit(body):
 	if body is Player:
 		justPassed = false
 
-
 func open():
 	isOpen = true
 	doorOpen.play()
@@ -42,3 +41,9 @@ func open():
 func close():
 	isOpen = false
 	doorOpen.play()
+	for tileMap in get_parent().get_parent().get_children():
+		if tileMap is TileMap:
+			tileMap.set_cell(1, doorCoords, 0, Vector2i(11, 14))
+
+func checkOpen():
+	return isOpen

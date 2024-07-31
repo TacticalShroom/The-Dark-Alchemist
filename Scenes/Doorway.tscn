@@ -24,8 +24,9 @@ position = Vector2(0, 50)
 position = Vector2(0, -1.5)
 shape = SubResource("RectangleShape2D_30gsd")
 
-[node name="DoorOpen" type="AudioStreamPlayer2D" parent="."]
+[node name="DoorOpen" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_k7w70")
+volume_db = 10.0
 
 [node name="DoorPass" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("3_ql4q4")

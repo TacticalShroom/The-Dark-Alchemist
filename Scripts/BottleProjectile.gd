@@ -9,7 +9,7 @@ extends Area2D
 @onready var freezeParticles = $FreezeParticles
 @onready var potionQueueTimer = $PotionQueueTimer
 
-const BOTTLE_VELOCITY = 4
+const BOTTLE_VELOCITY = 3 
 
 signal bottle_landed
 

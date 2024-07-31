@@ -1,15 +1,19 @@
 extends StaticBody2D
 
 @onready var breakSound = $BreakSound
+@export var brittle = true
 
-@onready var queueTimer = $QueueTimer
 @onready var collision = $CollisionShape2D
 @onready var pos = position
 
 func _ready():
 	if get_parent().is_in_group("Immune"):
 		setCollision(true)
+	if !brittle:
+		setSolid()
 
+func setSolid():
+	remove_from_group("Brittle")
 
 func shatter():
 	breakSound.play()

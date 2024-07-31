@@ -76,7 +76,7 @@ var knockBackDuration = 0.2
 
 var coolDownTimer = 0.0
 var speedMulti = 1
-var shadowShards = 10
+var shadowShards = 20
 var maxShadowShards = 20
 
 var banishedEnemies = []
@@ -91,6 +91,9 @@ enum PotionTypes {
 	EXPLOSION,
 	RAGE
 }
+
+func getBanished():
+	return banishedEnemies
 
 func _ready():
 	var i = 0
@@ -215,7 +218,8 @@ func updateHurtBox():
 	hurtBox.position.y = mouseDirection.y * hurtBoxDistance
 
 func _on_area_2d_body_shape_entered(body_rid, body, body_shape_index, local_shape_index):
-	if body.is_in_group("Brittle"):
+	var b = body
+	if body.is_in_group("Brittle") && !body is TileMap:
 		body.shatter()
 	if body.is_in_group("Hit"):
 		direction = direction.normalized()
@@ -255,7 +259,7 @@ func potionListener():
 	if Input.is_action_just_pressed("PotionMenu") || Input.is_action_just_released("PotionMenu"):
 		select.play()
 	if Input.is_action_pressed("PotionMenu"):
-		potionText.text = "Cost: " + str(potions[selectedPotionIndex].getCost())
+		potionText.text = "Cost: " + str(potions[selectedPotionIndex].getCost()) + "\n" + str(potions[selectedPotionIndex].getName()) + " Potion"
 		var i = 0
 		for potion in potions:
 			if i != selectedPotionIndex:
@@ -370,7 +374,7 @@ func splashPotion(potionType : PotionTypes, effectedBoddies : Array = [], x : in
 			potionBlock.setCollision(false)
 		PotionTypes.EXPLOSION:
 			for body in effectedBoddies:
-				if body.is_in_group("Brittle"):
+				if body.is_in_group("Brittle") && !body is TileMap:
 					body.shatter()
 				if body.is_in_group("Hit"):
 					var dir = Vector2.ZERO
@@ -397,7 +401,9 @@ func onHurt(damage, knockBackDir):
 	knockBackTimer = knockBackDuration
 	knockBackDirection = knockBackDir
 	if (health <= 0):
-		self.queue_free() #you die
+		SceneTransition.changeScene(load("res://Scenes/TitleMenu.tscn"))
+		self.queue_free()
+		get_tree().reload_current_scene()
 
 func takeKnockBack(delta):
 	knockBackTimer -= delta

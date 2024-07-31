@@ -1,0 +1,66 @@
+[gd_scene load_steps=10 format=3 uid="uid://b5su4kx31so8y"]
+
+[ext_resource type="Texture2D" uid="uid://c6o71d8nr4f0e" path="res://Textures/Objects/torch.png" id="1_81r7t"]
+[ext_resource type="Script" path="res://Scripts/Torch.gd" id="2_2yn7j"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ta1g3"]
+atlas = ExtResource("1_81r7t")
+region = Rect2(20, 0, 20, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1enyt"]
+atlas = ExtResource("1_81r7t")
+region = Rect2(40, 0, 20, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rstc4"]
+atlas = ExtResource("1_81r7t")
+region = Rect2(60, 0, 20, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pe5vg"]
+atlas = ExtResource("1_81r7t")
+region = Rect2(80, 0, 20, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ab5bi"]
+atlas = ExtResource("1_81r7t")
+region = Rect2(100, 0, 20, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fv7vu"]
+atlas = ExtResource("1_81r7t")
+region = Rect2(0, 0, 20, 20)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_k5k4i"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ta1g3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1enyt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rstc4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pe5vg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ab5bi")
+}],
+"loop": true,
+"name": &"Lit",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fv7vu")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="Torch" type="AnimatedSprite2D"]
+z_index = 1
+y_sort_enabled = true
+sprite_frames = SubResource("SpriteFrames_k5k4i")
+animation = &"Lit"
+script = ExtResource("2_2yn7j")

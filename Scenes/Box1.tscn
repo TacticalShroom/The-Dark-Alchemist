@@ -11,6 +11,8 @@ size = Vector2(18, 21)
 size = Vector2(18, 21)
 
 [node name="Box1" type="StaticBody2D" groups=["Brittle"]]
+collision_layer = 5
+collision_mask = 5
 script = ExtResource("1_8oxb0")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -23,12 +25,8 @@ texture = ExtResource("1_nhvqa")
 [node name="BreakSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("3_81ve8")
 
-[node name="QueueTimer" type="Timer" parent="."]
-wait_time = 10.0
-
 [node name="CharacterBody2D" type="CharacterBody2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
 position = Vector2(0, 0.5)
 shape = SubResource("RectangleShape2D_fv3ka")
-

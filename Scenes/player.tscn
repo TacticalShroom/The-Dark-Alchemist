@@ -297,7 +297,7 @@ animations = [{
 size = Vector2(14, 7)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_oosat"]
-size = Vector2(31, 27)
+size = Vector2(21, 21)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_s4nqj"]
 atlas = ExtResource("14_monhd")
@@ -460,7 +460,7 @@ process_callback = 0
 [node name="Area2D" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(22.5, 1.5)
+position = Vector2(17.5, 1.5)
 shape = SubResource("RectangleShape2D_oosat")
 disabled = true
 
@@ -553,6 +553,7 @@ position = Vector2(0, 105)
 [node name="Shadow" type="Area2D" parent="UI/Potions"]
 script = ExtResource("3_3oqpm")
 shardCost = 3
+potionName = "Shadow"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="UI/Potions/Shadow"]
 shape = SubResource("RectangleShape2D_64s5g")
@@ -565,6 +566,7 @@ texture = ExtResource("4_p8ojs")
 script = ExtResource("3_3oqpm")
 shardCost = 4
 potionType = 1
+potionName = "Brittle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="UI/Potions/Brittle"]
 shape = SubResource("RectangleShape2D_64s5g")
@@ -577,6 +579,7 @@ texture = ExtResource("5_nn8gn")
 script = ExtResource("3_3oqpm")
 shardCost = 5
 potionType = 2
+potionName = "Teleport"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="UI/Potions/Teleport"]
 shape = SubResource("RectangleShape2D_64s5g")
@@ -589,6 +592,7 @@ texture = ExtResource("6_j7uv8")
 script = ExtResource("3_3oqpm")
 shardCost = 10
 potionType = 3
+potionName = "Banish"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="UI/Potions/Banish"]
 shape = SubResource("RectangleShape2D_64s5g")
@@ -601,6 +605,7 @@ texture = ExtResource("7_8prmj")
 script = ExtResource("3_3oqpm")
 shardCost = 2
 potionType = 4
+potionName = "Freeze"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="UI/Potions/Freeze"]
 shape = SubResource("RectangleShape2D_64s5g")
@@ -613,6 +618,7 @@ texture = ExtResource("8_oeyqk")
 script = ExtResource("3_3oqpm")
 shardCost = 5
 potionType = 5
+potionName = "Box"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="UI/Potions/Block"]
 shape = SubResource("RectangleShape2D_64s5g")
@@ -625,6 +631,7 @@ texture = ExtResource("9_r5hew")
 script = ExtResource("3_3oqpm")
 shardCost = 4
 potionType = 6
+potionName = "Explosion"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="UI/Potions/Explosion"]
 shape = SubResource("RectangleShape2D_64s5g")
@@ -637,6 +644,7 @@ texture = ExtResource("10_tk4nn")
 script = ExtResource("3_3oqpm")
 shardCost = 2
 potionType = 7
+potionName = "Rage"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="UI/Potions/Rage"]
 shape = SubResource("RectangleShape2D_64s5g")
@@ -646,10 +654,11 @@ disabled = true
 texture = ExtResource("11_wo8rg")
 
 [node name="Potion" type="RichTextLabel" parent="UI/Potions"]
-offset_left = -9.0
-offset_top = -28.0
-offset_right = 31.0
-offset_bottom = -9.0
+offset_left = -17.0
+offset_top = -37.0
+offset_right = 23.0
+offset_bottom = -18.0
+mouse_filter = 2
 theme_override_font_sizes/normal_font_size = 6
 
 [node name="HealthBar" type="Node2D" parent="UI"]

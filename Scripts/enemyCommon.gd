@@ -20,7 +20,7 @@ var angleBetweenRays := deg_to_rad(5.0)
 
 var damageTakenMulti = 1
 
-
+var MAX_SPEED = 100
 var direction = Vector2(1,0)
 @export var starting_dir = Vector2(1,0)
 @export var shadowShardReward = 2
@@ -85,83 +85,84 @@ func setHealthBar():
 	
 
 func _physics_process(delta):
-	var doesSeePlayer = target != null
-	frameProgress = sprite.current_animation_position
-	if (doesSeePlayer):
-		movement = Vector2(target.position.x - position.x, target.position.y - position.y)
-		if (abs(movement.x) > attackRange || abs(movement.y) > attackRange) && hurtBox.disabled == true && coolDownTimer <= attackCoolDown && coolDownTimer > attackCoolDown - 0.15:
-			if movement.x > 0:
-				sprite.play("walk_right")
-				if !facingRight:
-					facingRight = true
-					sprite.advance(frameProgress)
-			else:
-				sprite.play("walk_left")
-				if facingRight:
-					facingRight = false
-					sprite.advance(frameProgress)
-			movement = movement.normalized()
-			velocity.x = move_toward(velocity.x, movement.x * movementSpeed, acceleration)
-			velocity.y = move_toward(velocity.y, movement.y * movementSpeed, acceleration)
-			move_and_slide()
-		elif attackTimer <= 0.0 && coolDownTimer <= 0.0:
-			movement = movement.normalized()
-			hurtBox.disabled = false #initiate attack
-			if !attackSound.playing:
-				attackSound.play()
-			attackTimer = attackDuration
-			coolDownTimer = attackCoolDown + attackDuration
-		else:
-			if attackTimer > 0.0:
-				attackTimer -= delta
-			else:
-				hurtBox.disabled = true #attack finishes
-				hit = false
-			if coolDownTimer > 0.0:
+	if abs(global_position.x - get_parent().get_child(3).global_position.x) <= 232 && abs(global_position.y - get_parent().get_child(3).global_position.y):
+		var doesSeePlayer = target != null
+		frameProgress = sprite.current_animation_position
+		if (doesSeePlayer):
+			movement = Vector2(target.position.x - position.x, target.position.y - position.y)
+			if (abs(movement.x) > attackRange || abs(movement.y) > attackRange) && hurtBox.disabled == true && coolDownTimer <= attackCoolDown && coolDownTimer > attackCoolDown - 0.15:
 				if movement.x > 0:
-					sprite.play("bite_right")
+					sprite.play("walk_right")
 					if !facingRight:
 						facingRight = true
 						sprite.advance(frameProgress)
 				else:
-					sprite.play("bite_left")
+					sprite.play("walk_left")
 					if facingRight:
 						facingRight = false
 						sprite.advance(frameProgress)
-				coolDownTimer -= delta
-			movement = movement.normalized()
-	else:
-		if RandomNumberGenerator.new().randi_range(0, 420) == 69 && !idleSound.playing:
-			idleSound.play()
-		
-		if (direction.x > 0):
-			sprite.play("idle_right")
+				movement = movement.normalized()
+				velocity.x = move_toward(velocity.x, movement.x * movementSpeed, acceleration)
+				velocity.y = move_toward(velocity.y, movement.y * movementSpeed, acceleration)
+				move_and_slide()
+			elif attackTimer <= 0.0 && coolDownTimer <= 0.0:
+				movement = movement.normalized()
+				hurtBox.disabled = false #initiate attack
+				if !attackSound.playing:
+					attackSound.play()
+				attackTimer = attackDuration
+				coolDownTimer = attackCoolDown + attackDuration
+			else:
+				if attackTimer > 0.0:
+					attackTimer -= delta
+				else:
+					hurtBox.disabled = true #attack finishes
+					hit = false
+				if coolDownTimer > 0.0:
+					if movement.x > 0:
+						sprite.play("bite_right")
+						if !facingRight:
+							facingRight = true
+							sprite.advance(frameProgress)
+					else:
+						sprite.play("bite_left")
+						if facingRight:
+							facingRight = false
+							sprite.advance(frameProgress)
+					coolDownTimer -= delta
+				movement = movement.normalized()
 		else:
-			sprite.play("idle_left")
-	
-	if hurtBox.disabled == false && coolDownTimer > attackCoolDown + attackDuration - (attackDuration / 3):
-		movement = movement.normalized()
-		velocity.x = movement.x * movementSpeed
-		velocity.y = movement.y * movementSpeed
-		move_and_slide()
-	if knockBackTimer > 0.0:
-		knockBackTimer -= delta
-		velocity.x = move_toward(velocity.x, knockBackDirection.x * knockBackSpeed, acceleration)
-		velocity.y = move_toward(velocity.y, knockBackDirection.y * knockBackSpeed, acceleration)
-		move_and_slide()
-	
-	target = null
-	for ray in get_children():
-		if (ray is RayCast2D):
-			ray.rotate(movement.angle()-direction.angle())
-			if ray.is_colliding() && ray.get_collider() != null:
-				if ray.get_collider().is_in_group("Player"):
-					target = ray.get_collider()
-	
-	hurtBox.rotation = atan2(direction.y, direction.x)
-	hurtBox.position.x = direction.x * attackRange
-	hurtBox.position.y = direction.y * attackRange
-	direction = movement
+			if RandomNumberGenerator.new().randi_range(0, 420) == 69 && !idleSound.playing:
+				idleSound.play()
+			
+			if (direction.x > 0):
+				sprite.play("idle_right")
+			else:
+				sprite.play("idle_left")
+		
+		if hurtBox.disabled == false && coolDownTimer > attackCoolDown + attackDuration - (attackDuration / 3):
+			movement = movement.normalized()
+			velocity.x = movement.x * movementSpeed
+			velocity.y = movement.y * movementSpeed
+			move_and_slide()
+		if knockBackTimer > 0.0:
+			knockBackTimer -= delta
+			velocity.x = move_toward(velocity.x, knockBackDirection.x * knockBackSpeed, acceleration)
+			velocity.y = move_toward(velocity.y, knockBackDirection.y * knockBackSpeed, acceleration)
+			move_and_slide()
+		
+		target = null
+		for ray in get_children():
+			if (ray is RayCast2D):
+				ray.rotate(movement.angle()-direction.angle())
+				if ray.is_colliding() && ray.get_collider() != null:
+					if ray.get_collider().is_in_group("Player"):
+						target = ray.get_collider()
+		
+		hurtBox.rotation = atan2(direction.y, direction.x)
+		hurtBox.position.x = direction.x * attackRange
+		hurtBox.position.y = direction.y * attackRange
+		direction = movement
 	
 
 func shatter():
