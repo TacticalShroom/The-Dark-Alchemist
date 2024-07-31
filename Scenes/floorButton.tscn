@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://ds8geecc1j2sw"]
+
+[ext_resource type="Script" path="res://Scripts/floorButton.gd" id="1_4iegv"]
+[ext_resource type="Texture2D" uid="uid://clcgxwutfa3hr" path="res://Textures/Objects/button.png" id="1_vct1y"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_o7af4"]
+radius = 12.0
+height = 28.0
+
+[node name="floorButton" type="Node2D" groups=["Button"]]
+script = ExtResource("1_4iegv")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_vct1y")
+hframes = 2
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, 1)
+shape = SubResource("CapsuleShape2D_o7af4")
+
+[connection signal="body_shape_entered" from="Area2D" to="." method="_on_area_2d_body_shape_entered"]
+[connection signal="body_shape_exited" from="Area2D" to="." method="_on_area_2d_body_shape_exited"]
