@@ -1,7 +1,6 @@
 extends StaticBody2D
 
 @onready var breakSound = $BreakSound
-@onready var queueTimer = $QueueTimer
 
 func shatter():
 	breakSound.play()
@@ -9,7 +8,6 @@ func shatter():
 		if player is Player:
 			player.shadowShards += 1
 	self.visible = false
-
-
-func queueTimeout():
+	await breakSound.finished
 	queue_free()
+

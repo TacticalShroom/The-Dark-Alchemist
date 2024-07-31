@@ -1,0 +1,36 @@
+[gd_scene load_steps=5 format=3 uid="uid://053stbo0hp3m"]
+
+[ext_resource type="Script" path="res://Scripts/Doorway.gd" id="1_3xglf"]
+[ext_resource type="AudioStream" uid="uid://deixk7vnlf64b" path="res://Sounds/DoorOpen.wav" id="2_k7w70"]
+[ext_resource type="AudioStream" uid="uid://c446l6mwvdl7t" path="res://Sounds/WoodBlock.wav" id="3_ql4q4"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_30gsd"]
+size = Vector2(20, 1.75)
+
+[node name="Doorway" type="Node2D"]
+script = ExtResource("1_3xglf")
+
+[node name="DoorSide2" type="Area2D" parent="."]
+position = Vector2(0, -50)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DoorSide2"]
+position = Vector2(0, 1.5)
+shape = SubResource("RectangleShape2D_30gsd")
+
+[node name="DoorSide1" type="Area2D" parent="."]
+position = Vector2(0, 50)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DoorSide1"]
+position = Vector2(0, -1.5)
+shape = SubResource("RectangleShape2D_30gsd")
+
+[node name="DoorOpen" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("2_k7w70")
+
+[node name="DoorPass" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_ql4q4")
+
+[connection signal="body_entered" from="DoorSide2" to="." method="doorSideTwoBody"]
+[connection signal="body_exited" from="DoorSide2" to="." method="doorSideTwoExit"]
+[connection signal="body_entered" from="DoorSide1" to="." method="doorSideOneBody"]
+[connection signal="body_exited" from="DoorSide1" to="." method="doorSideOneExit"]

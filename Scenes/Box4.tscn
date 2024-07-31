@@ -18,8 +18,3 @@ shape = SubResource("RectangleShape2D_t3ts3")
 
 [node name="BreakSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("3_odgwt")
-
-[node name="QueueTimer" type="Timer" parent="."]
-wait_time = 10.0
-
-[connection signal="timeout" from="QueueTimer" to="." method="queueTimeout"]
